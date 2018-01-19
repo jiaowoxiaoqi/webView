@@ -1,0 +1,46 @@
+.zyList{
+    margin-top: 15px;
+    width: 100%;
+}
+.zyList-grounp{
+    box-sizing: border-box;
+    padding: 0 15px;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+}
+.zyList-grounp>.zyList-item{
+    display: flex;
+    width: 100%;
+    list-style: none;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 44px;
+    position: relative
+}
+.zyList-grounp>.zyList-item::after{
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid #EEE;
+    bottom: 0;
+    content: " ";
+}
+.zyList-grounp>.zyList-lastItem::after{
+    display: none;
+}
+.zyList-grounp>.zyList-item>.zyList-left{
+    width: 25%;
+    max-width: 25%;
+    overflow-wrap: nowrap;
+    text-align: left
+}
+.zyList-grounp>.zyList-item>.zyList-content{
+    width: 60%;
+    min-width: 60%;
+    text-align: right
+}
+.zyList-grounp>.zyList-item>.zyList-right{
+    width: 15%;
+    max-width: 15%;
+    text-align: right
+}
