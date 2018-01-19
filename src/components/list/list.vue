@@ -1,7 +1,8 @@
 <template>
     <div class="zyList">
         <ul class="zyList-grounp">
-            <slot>
+            <slot></slot>
+            <slot name="zyList-content">
                 <li class="zyList-item" :class='{"zyList-lastItem":index==(zyList.length-1)}' v-for='(item , index) in zyList' :key='index' @click='emitFunction'>
                     <div class="zyList-left">
                         <div v-if='zyListConfig[index].isLfShow'>

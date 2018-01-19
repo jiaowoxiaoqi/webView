@@ -3,9 +3,6 @@
     width: 100%;
 }
 .zyList-grounp{
-    box-sizing: border-box;
-    padding: 0 15px;
-    background: #fff;
     display: flex;
     flex-direction: column;
 }
@@ -16,7 +13,10 @@
     justify-content: space-between;
     align-items: center;
     min-height: 44px;
-    position: relative
+    position: relative;
+    box-sizing: border-box;
+    padding: 0 15px;
+    background: #fff;
 }
 .zyList-grounp>.zyList-item::after{
     position: absolute;

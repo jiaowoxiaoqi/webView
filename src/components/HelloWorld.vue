@@ -7,6 +7,11 @@
         <span>草稿箱</span>
       </div>
     </zy-header> 
+    <zy-list :zyList='listDeta' :zyListConfig='zyListConfig'>
+      <li>
+        <h1>会议详情</h1>
+      </li>
+    </zy-list>
     <zy-list :zyList='listDeta' :zyListConfig='zyListConfig'></zy-list>
   </div>
 </template>
