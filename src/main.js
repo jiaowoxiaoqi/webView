@@ -9,7 +9,7 @@ import store from './store/index'
 
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
-
+import './assets/js/rem'
 import './assets/css/iconfont/iconfont.js'
 import './assets/css/iconfont/iconfont.css'
 import './assets/css/app.css'
