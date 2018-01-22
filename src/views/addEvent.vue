@@ -8,12 +8,14 @@
         </div>
     </zy-header>
     <group>
-        <cell is-link @click='openPopup'>
-            <div slot='title'>
-                <span class="zy_w4">会议城市</span>
-                <span class='zyCl_red'>*</span>
-            </div>
-        </cell>
+        <div @click='openPopup'>
+            <cell is-link>
+                <div slot='title'>
+                    <span class="zy_w4">会议城市</span>
+                    <span class='zyCl_red'>*</span>
+                </div>
+            </cell>
+        </div>
     </group>
     <group>
         <cell is-link>
@@ -68,11 +70,20 @@
             </div>
         </cell>
     </group>
+    <popup v-model="show5" position="bottom" height="50%" :hide-on-blur="false">
+        <div class="popup2">
+            <group>
+                <x-switch title="Mask disable" v-model="show5"></x-switch>
+            </group>
+            The mask cannot be clicked!
+        </div>
+    </popup>
+    <zy-popup :pppConfig='pppConfig'></zy-popup>
  </div>
 </template>
 
 <script>
-    import { Cell, CellBox, CellFormPreview, Group, Badge, Datetime } from 'vux'
+    import { Cell, CellBox, CellFormPreview, Group, Badge, Datetime, Popup, XSwitch } from 'vux'
     export default {
         data() {
             return {
@@ -87,19 +98,30 @@
                 },
                 value3: '',
                 startDate:'2018-01-12',
-                endDate:'2018-11-11'
+                endDate:'2018-11-11',
+                show5: false,
+                pppConfig:{
+                    show: false,
+                    position: 'bottom',
+                    height: '100%',
+                }
             }
         },
         components: {
             'zy-header': (resolve) => {
                 require(['../components/header/header.vue'], resolve);
             },
+            'zy-popup': (resolve) => {
+                require(['../components/popup/popup'], resolve);
+            },
             Group,
             Cell,
             CellFormPreview,
             CellBox,
             Badge,
-            Datetime
+            Datetime,
+            Popup,
+            XSwitch
         },
         methods: {
             leftFunction () {
@@ -109,7 +131,8 @@
                 console.log('change', value)
             },
             openPopup () {
-                
+                this.pppConfig.show = !this.pppConfig.show
+                console.log(this.show5)
             }
         }
     }
