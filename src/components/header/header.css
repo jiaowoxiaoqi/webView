@@ -1,11 +1,11 @@
 .zyHeader{
     position: relative;
     box-sizing: border-box;
-    padding: 0 15px;
+    padding: 0 0.15rem;
     display:flex;
     justify-content: space-between;
     align-items: center;
-    height: 44px;
+    height: 0.44rem;
 }
 .zyHeader>div{
     width: 30%;
@@ -21,18 +21,18 @@
 }
 .zyHeader>.zyHeader-right>.bag{
     position: absolute;
-    right: 20px;
-    top: 6px;
+    right: 0.2rem;
+    top: 0.06rem;
     box-sizing: border-box;
     background-color: #F00;
     color: #FFF;
     display: inline-block;
-    min-width: 10px;
-    height: 10px;
+    min-width: 0.1rem;
+    height: 0.1rem;
     line-height: 0px;
-    font-size: 12px;
+    font-size: 0.12rem;
     text-align: center;
-    border-radius: 10px;
-    padding: 8px 5px;
-    margin-left: -8px;
+    border-radius: 0.1rem;
+    padding: 0.08rem 0.05rem;
+    margin-left: -0.08rem;
 }

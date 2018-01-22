@@ -1,23 +1,20 @@
 <template>
   <div class="hello">
     <zy-header :leftFunction='leftFunction' :headerConfig='headerConfig'>
-      <span>首頁</span>
+      <span>添加会议</span>
       <div slot="zyHeader-right">
         <span class='bag'>888</span>
         <span>草稿箱</span>
       </div>
     </zy-header> 
-    <zy-list :zyList='listDeta' :zyListConfig='zyListConfig'>
-      <li>
-        <h1>会议详情</h1>
-      </li>
-    </zy-list>
-    <zy-list :zyList='listDeta' :zyListConfig='zyListConfig'></zy-list>
+    <div>
+      <button @click='goPage'>跳转</button>
+    </div>
   </div>
 </template>
 
 <script>
-  // import zyHeader from './header/header.vue'
+
   export default {
     name: 'HelloWorld',
     data () {
@@ -31,47 +28,20 @@
           rtIsShow: true,
           rtTxt: '草稿箱',
           rtIcon: false,
-        },
-        zyListConfig:[{
-                    isLfShow: true,
-                    labelTxt: 'label1',
-                    isMajor: true,
-                    isRtShow: true
-                },{
-                    isLfShow: true,
-                    labelTxt: 'label1',
-                    isMajor: false,
-                    isRtShow: true
-                },{
-                    isLfShow: true,
-                    labelTxt: 'label1',
-                    isMajor: true,
-                    isRtShow: false
-                },{
-                    isLfShow: true,
-                    labelTxt: 'label1',
-                    isMajor: true,
-                    isRtShow: true
-                },{
-                    isLfShow: false,
-                    labelTxt: 'label1',
-                    isMajor: false,
-                    isRtShow: false
-                }],
-        listDeta:[{txt:1},{txt:2},{txt:3},{txt:4},{txt:5}]
+        }
       }
     },
     components: {
       'zy-header': (resolve) => {
         require(['../components/header/header.vue'], resolve);
-      },
-      'zy-list': (resolve) => {
-        require(['../components/list/list'], resolve);
-      },
+      }
 		},
     methods: {
       leftFunction () {
         alert(1)
+      },
+      goPage () {
+        this.$router.push('/addEvent')
       }
     }
   }
@@ -88,26 +58,26 @@
   }
   li {
     display: inline-block;
-    margin: 0 10px;
+    margin: 0 0.1rem;
   }
   a {
     color: #42b983;
   }
   .bag {
       position: absolute;
-      right: 20px;
-      top: 6px;
+      right: 0.2rem;
+      top: 0.06rem;
       box-sizing: border-box;
       background-color: #F00;
       color: #FFF;
       display: inline-block;
-      min-width: 10px;
-      height: 10px;
+      min-width: 0.1rem;
+      height: 0.1rem;
       line-height: 0px;
-      font-size: 12px;
+      font-size: 0.12rem;
       text-align: center;
-      border-radius: 10px;
-      padding: 8px 5px;
-      margin-left: -8px;
+      border-radius: 0.1rem;
+      padding: 0.08rem 0.05rem;
+      margin-left: -0.08rem;
   }
 </style>
