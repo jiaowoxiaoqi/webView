@@ -1,13 +1,24 @@
 <template>
   <div id="app">
+    <loading v-model="loadStatus"></loading>
     <router-view/>
   </div>
 </template>
 
 <script>
-export default {
-  name: 'App'
-}
+  import { Loading } from 'vux'
+  import { mapState } from 'vuex'
+  export default {
+    name: 'App',
+    components: {
+      Loading
+    },
+    computed: {
+      ...mapState({
+        loadStatus: state => state.loading.loadStatus
+      })
+    }
+  }
 </script>
 
 <style>
@@ -15,7 +26,6 @@ export default {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
 }
 </style>
