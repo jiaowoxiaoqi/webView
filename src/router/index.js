@@ -15,6 +15,12 @@ const router = new Router({
       component:  (resolve) => {
         require(['@/components/HelloWorld'], resolve);
       },
+    },{
+      path: '/addEvent',
+      name: 'addEvent',
+      component:  (resolve) => {
+        require(['@/views/addEvent'], resolve);
+      },
     }
   ]
 })
