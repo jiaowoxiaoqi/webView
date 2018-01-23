@@ -8,12 +8,11 @@
         </div>
         <div class="zyHeader-content">
             <slot v-if='headerConfig.ctContentShow'>
-            
+                {{headerConfig.ctContent}}
             </slot>
         </div>
         <div class="zyHeader-right">
             <slot name="zyHeader-right" v-if='headerConfig.rtIsShow'>
-                <badge text="8" class='bag'></badge>
                 <span v-if='headerConfig.rtTxt'>{{headerConfig.rtTxt}}</span>
                 <i class='iconfont icon-arrow-right-copy-copy' v-if='headerConfig.rtIcon'></i>
             </slot>

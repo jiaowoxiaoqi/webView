@@ -40,7 +40,19 @@ ul,li,dl,dd,dt,p,ol,h1,h2,h3,h4,h5{
     .zyMgLf_8{
         margin-left: 0.08rem;
     }
+    .zyMgTop_15{
+        margin-top: 0.15rem;
+    }
+    .zyMgTop_44{
+        margin-top: 0.44rem;
+    }
     /* padding */
+    .zyPdTop_15{
+        padding-top: 0.15rem;
+    }
+    .zyPdLf_15{
+        padding-left: 0.15rem;
+    }
 
 /* letter-spacing (用于不同字数文本两端对齐) */
 .zy_w4{
@@ -50,4 +62,10 @@ ul,li,dl,dd,dt,p,ol,h1,h2,h3,h4,h5{
 .zy_w2{
     letter-spacing: 0.38rem;
     margin-right: -0.38rem;
+}
+/* title (标题自定义H1-H6) */
+.zy_h3 {
+    font-size: 0.16rem;
+    color: #0099ff;
+    font-weight: 300;
 }
