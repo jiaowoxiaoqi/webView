@@ -7,7 +7,7 @@
         <span>草稿箱</span>
       </div>
     </zy-header> 
-    <div>
+    <div class="zyMgTop_44">
       <button @click='goPage'>跳转</button>
     </div>
   </div>

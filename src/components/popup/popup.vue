@@ -11,15 +11,10 @@
                 <span>{{headerConfig.rtTxt}}</span>
             </div>
         </zyHeader>
-        <div v-for="src in list" :key ='src' style="background-color:yellow;text-align:center;">
-            <span style="font-size:20px;">Loading</span>
-            <img src="../../assets/images/img1.jpg" alt="">
-            <x-img 
-                :src="src"  
-                class="ximg-demo" 
-                :offset="-100" 
-                container="#vux_view_box_body">
-            </x-img>
+        <div class='popupInner zyMgTop_59'>
+            <zyListGroup v-if="zyListShow" :listData='zyListData' :listConfig='zyListConfig'></zyListGroup>
+            <zyTextarea v-if="zyTextareaShow"></zyTextarea>
+            <zyListGroup v-if="zyListShow2" :listData='zyListData2' :listConfig='zyListConfig2'></zyListGroup>
         </div>
     </popup>
  </div>
@@ -27,6 +22,8 @@
 
 <script>
     import zyHeader from '../header/header.vue'
+    import zyListGroup from '../model/listGroup.vue'
+    import zyTextarea from '../model/textarea.vue'
     import { Popup, XImg } from 'vux'
     export default {
         props: {
@@ -54,36 +51,79 @@
                     rtTxt: '保存',
                     rtIcon: false,
                 },
-                list:[
-                    '../../assets/images/img1.jpg',
-                    require('../../assets/images/img2.jpg'),
-                    require('../../assets/images/img3.jpg'),
-                    require('../../assets/images/img4.jpg'),
-                ]
+                zyListShow: false,
+                zyListData:[
+                    {
+                    leftTxt:'国家',
+                    contentTxt: '中国'
+                    },{
+                        leftTxt:'省份',
+                        contentTxt: '上海'
+                    },{
+                        leftTxt:'城市',
+                        contentTxt: '上海'
+                    }
+                ],
+                zyListConfig:{
+                    lfIsShow: true,
+                    lfIcon: true,
+                    ctIsShow: true,
+                    rtIsShow: true,
+                    rtIcon: true,
+                },
+                zyListShow2: false,
+                zyListData2:[
+                    {
+                    leftTxt:'上午'
+                    },{
+                        leftTxt:'下午'
+                    },{
+                        leftTxt:'全天'
+                    }
+                ],
+                zyListConfig2:{
+                    lfIsShow: true,
+                    lfIcon: false,
+                    ctIsShow: false,
+                    rtIsShow: false,
+                    rtIcon: false,
+                },
+                zyTextareaShow: false,
             }
         },
         components: {
             Popup,
             XImg,
-            zyHeader
+            zyHeader,
+            zyListGroup,
+            zyTextarea
         },
         methods: {
             changeHeaderConfig (type) {
                 switch (type) {
                     case "selectCity"://城市選擇
-                        this.headerConfig.ctContent = "selectCity"
+                        this.headerConfig.ctContent = "城市选择"
+                        this.zyListShow = true
+                        this.zyTextareaShow = false
+                        this.zyListShow2 = false
                         break;
                     case "eventName"://會議名稱
-                        this.headerConfig.ctContent = "eventName"
+                        this.headerConfig.ctContent = "会议名称"
+                        this.zyListShow = false
+                        this.zyTextareaShow = true
+                        this.zyListShow2 = false
                         break;
                     case "selectTime"://選擇時段
-                        this.headerConfig.ctContent = "selectTime"
+                        this.headerConfig.ctContent = "选择"
+                        this.zyListShow = false
+                        this.zyTextareaShow = false
+                        this.zyListShow2 = true
                         break;    
                     case "entryNumber"://錄入人數
-                        this.headerConfig.ctContent = "entryNumber"
+                        this.headerConfig.ctContent = "人数"
                         break;
                     case "remarks"://備註
-                        this.headerConfig.ctContent = "remarks"
+                        this.headerConfig.ctContent = "备注"
                         break;
                 }
             },

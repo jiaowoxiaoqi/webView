@@ -26,8 +26,17 @@
     export default {
         props:{
             headerConfig: {
-                // type: ,
+                type: Object,
                 required: false,
+                default: {
+                    lfIsShow: true,
+                    lfTxt: '返回',
+                    lfIcon: true,
+                    ctContentShow: true,
+                    rtIsShow: true,
+                    rtTxt: '草稿箱',
+                    rtIcon: false,
+                }
               //默认配置
             },
             leftFunction: {

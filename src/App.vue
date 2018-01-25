@@ -57,12 +57,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-.slide-fade-enter-active {
+/* .slide-fade-enter-active {
   transition: all 0.3s ease;
 }
 .slide-fade-enter,
 .slide-fade-leave-active {
-  transform: translateX(0.1rem);
+  transform: translateX(10px);
   opacity: 0;
 }
 .slide-out-enter-active {
@@ -70,7 +70,7 @@
 }
 .slide-out-enter,
 .slide-out-leave-active {
-  transform: translateX(-0.1rem);
+  transform: translateX(-10px);
   opacity: 0;
-}
+} */
 </style>

@@ -1,46 +1,40 @@
 .zyList{
-    margin-top: 15px;
     width: 100%;
-}
-.zyList-grounp{
+    box-sizing: border-box;
+    padding: 0 0.15rem;
+    min-height: 44px;
     display: flex;
-    flex-direction: column;
-}
-.zyList-grounp>.zyList-item{
-    display: flex;
-    width: 100%;
-    list-style: none;
     justify-content: space-between;
     align-items: center;
-    min-height: 44px;
-    position: relative;
-    box-sizing: border-box;
-    padding: 0 15px;
     background: #fff;
+    position: relative;
 }
-.zyList-grounp>.zyList-item::after{
-    position: absolute;
+.zyList>.zyList_left {
+    display: flex;
+    width: 30%;
+    justify-content: flex-start;
+    align-items: center;
+}
+.zyList>.zyList_content {
+    display: flex;
     width: 100%;
-    border-bottom: 1px solid #EEE;
+    justify-content: flex-end;
+    align-items: center;
+}
+.zyList>.zyList_right {
+    display: flex;
+    width: 10%;
+    justify-content: flex-end;
+    align-items: center;
+}
+.zyList::after{
+    position: absolute;
+    width: 90%;
+    border-bottom: 1px solid #D9D9D9;
     bottom: 0;
     content: " ";
+    transform: scaleY(0.5);
 }
-.zyList-grounp>.zyList-lastItem::after{
+.zyList-lastItem::after{
     display: none;
-}
-.zyList-grounp>.zyList-item>.zyList-left{
-    width: 25%;
-    max-width: 25%;
-    overflow-wrap: nowrap;
-    text-align: left
-}
-.zyList-grounp>.zyList-item>.zyList-content{
-    width: 60%;
-    min-width: 60%;
-    text-align: right
-}
-.zyList-grounp>.zyList-item>.zyList-right{
-    width: 15%;
-    max-width: 15%;
-    text-align: right
 }
