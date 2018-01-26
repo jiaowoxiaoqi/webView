@@ -89,13 +89,16 @@
             </div>
         </popup>
     </div>
+    <div class="zyFooter zyBg_white">
+        <span>保存草稿</span><span>下一步</span>
+    </div>
     <zy-popup :pppConfig='pppConfig'></zy-popup>
  </div>
 </template>
 
 <script>
     import {collect,storage} from 'toolmanage'
-    import { Cell, CellBox, CellFormPreview, Group, Badge, Datetime, Popup, XSwitch } from 'vux'
+    import { Cell, Group, Datetime, Popup } from 'vux'
     export default {
         data() {
             return {
@@ -128,12 +131,8 @@
             },
             Group,
             Cell,
-            CellFormPreview,
-            CellBox,
-            Badge,
             Datetime,
-            Popup,
-            XSwitch
+            Popup
         },
         mounted () {
             // var myPlugin = require('')
@@ -144,7 +143,6 @@
             collect.monitor.server = 'http://192.168.1.145:5000'
             collect.monitor.collect('mshop', {'device':'h5'}, {'a':1})
             // storage.set('abs','这是一段测试数据')
-            
             // console.log(myPlugin)
             // console.log(myPlugin.collect.monitor)
             // myPlugin.monitor.collect()
