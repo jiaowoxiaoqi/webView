@@ -1,2 +1,0 @@
-export const CHANGE_LOADSTATUs = 'CHANGE_LOADSTATUs'
-

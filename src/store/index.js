@@ -1,12 +1,20 @@
+/** store==>index.js
+ * 相关store文档参见：
+ * https://vuex.vuejs.org/
+ * 本项目采用store ==> modules进行状态管理
+ */
 import Vue from 'vue'
 import Vuex from 'vuex'
-import loading from './modules/loading'
-
 Vue.use(Vuex)
+import vuxStatus from './model/vuxStatus'
+import userConfig from './model/userConfig'
 
-
-export default new Vuex.Store({
-  modules: {
-    loading
-  }
+const store = new Vuex.Store({
+    strict: process.env.NODE_ENV !== 'production',
+    modules: {
+        vuxStatus: vuxStatus,
+        userConfig: userConfig
+    }
 })
+
+  export default store

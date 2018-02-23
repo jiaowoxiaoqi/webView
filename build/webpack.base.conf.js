@@ -1,7 +1,7 @@
 'use strict'
 const path = require('path')
-const utils = require('./utils')
 const vuxLoader = require('vux-loader')
+const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
 
@@ -9,7 +9,18 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-const webpackConfig = {
+const createLintingRule = () => ({
+  // test: /\.(js|vue)$/,
+  // loader: 'eslint-loader',
+  // enforce: 'pre',
+  // include: [resolve('src'), resolve('test')],
+  // options: {
+  //   formatter: require('eslint-friendly-formatter'),
+  //   emitWarning: !config.dev.showEslintErrorsInOverlay
+  // }
+})
+
+const webpackConfig =  {
   context: path.resolve(__dirname, '../'),
   entry: {
     app: './src/main.js'
@@ -30,6 +41,7 @@ const webpackConfig = {
   },
   module: {
     rules: [
+      ...(config.dev.useEslint ? [createLintingRule()] : []),
       {
         test: /\.vue$/,
         loader: 'vue-loader',
@@ -80,8 +92,8 @@ const webpackConfig = {
   }
 }
 
-module.exports = vuxLoader.merge(webpackConfig, {
+module.exports = vuxLoader.merge(webpackConfig,{
   plugins: [{
-    name: 'vux-ui',
+    name: 'vux-ui'
   }]
 })
