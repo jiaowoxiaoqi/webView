@@ -46,7 +46,11 @@
             },
             async logEvent () {// 2，登陆事件
                 if (this.isLoading) {
-                    this.$vux.toast.text('正在努力加载,请勿重复执行操作','bottom',60000)
+                    this.toast({
+                        message: '正在努力加载,请勿重复执行操作',
+                        position: 'bottom',
+                        duration: 5000
+                    })
                     return
                 }
                 let params = {
@@ -58,12 +62,19 @@
                 }
                 let res = await this.axios.post(this.api.login,params,{ headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                 if(res.access_token) {
-                    this.$vux.toast.text('登陆成功','bottom',60000)
+                    this.toast({
+                        message: '登录成功',
+                        position: 'bottom',
+                    })
                     this.tool.storage.driver('session')
                     this.tool.storage.set("token", res.access_token)
                     this.getTenantConfig()
                 }else {
-                    this.$vux.toast.text('登录失败，请稍后重试！！！或联系客服','bottom',)
+                    this.toast({
+                        message: '登录失败，请稍后重试！！！或联系客服',
+                        position: 'bottom',
+                        duration: 5000
+                    })
                 }
             },
             async getTenantConfig () {// 3，获取租户配置信息

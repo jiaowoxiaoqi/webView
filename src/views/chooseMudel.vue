@@ -46,36 +46,7 @@
                         imgAlt: "外卖/茶歇.icon",
                         title: "外卖/茶歇",
                         type: "TakeAway"
-                    },
-                    {
-                        imgUrl: require('../assets/images/icon_3.png'),
-                        imgAlt: "外卖/茶歇.icon",
-                        title: "外卖/茶歇",
-                        type: "TakeAway"
-                    },
-                    {
-                        imgUrl: require('../assets/images/icon_3.png'),
-                        imgAlt: "外卖/茶歇.icon",
-                        title: "外卖/茶歇",
-                        type: "TakeAway"
-                    },
-                    {
-                        imgUrl: require('../assets/images/icon_3.png'),
-                        imgAlt: "外卖/茶歇.icon",
-                        title: "外卖/茶歇",
-                        type: "TakeAway"
-                    },
-                    {
-                        imgUrl: require('../assets/images/icon_3.png'),
-                        imgAlt: "外卖/茶歇.icon",
-                        title: "外卖/茶歇",
-                        type: "TakeAway"
-                    },{
-                        imgUrl: require('../assets/images/icon_3.png'),
-                        imgAlt: "外卖/茶歇.icon",
-                        title: "外卖/茶歇",
-                        type: "TakeAway"
-                    },
+                    }
                 ],
                 scrollbar: true,
                 pulldown: true,

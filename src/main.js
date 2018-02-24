@@ -14,13 +14,14 @@ Vue.config.productionTip = false
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
-import  { ToastPlugin } from 'vux'
-Vue.use(ToastPlugin)
+import { Toast,MessageBox } from 'mint-ui'
 
 // 添加至vue prototype下的内容
 Vue.prototype.axios = axios
 Vue.prototype.api = api
 Vue.prototype.tool = tool
+Vue.prototype.toast = Toast
+Vue.prototype.messageBox = MessageBox
 
 // 引入rem.js及一些css
 import '@/assets/js/rem'
