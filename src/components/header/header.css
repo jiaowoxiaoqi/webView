@@ -5,7 +5,7 @@
     display:flex;
     justify-content: space-between;
     align-items: center;
-    height: 0.44rem;
+    min-height: .44rem;
     position: fixed;
     top: 0;
     left: 0;

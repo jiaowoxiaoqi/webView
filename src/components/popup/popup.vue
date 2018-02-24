@@ -5,7 +5,7 @@
         :position="pppConfig.position" 
         :height="pppConfig.height" 
         :hide-on-blur="pppConfig.hideOnBlur"
-        :on-show='changeHeaderConfig(pppConfig.type)'>
+        :on-show='popupInit(pppConfig.type)'>
         <zyHeader :headerConfig='headerConfig' :leftFunction='leftFunction'>
             <div slot="zyHeader-right" class="sl_zyheader_right">
                 <span>{{headerConfig.rtTxt}}</span>
@@ -99,7 +99,7 @@
             zyTextarea
         },
         methods: {
-            changeHeaderConfig (type) {
+            popupInit (type) {
                 switch (type) {
                     case "selectCity"://城市選擇
                         this.headerConfig.ctContent = "城市选择"

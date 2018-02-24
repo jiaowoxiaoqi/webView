@@ -1,0 +1,27 @@
+.zyFooter{
+    position: relative;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    min-height: .48rem;
+    box-sizing: border-box;
+    padding: .01rem .15rem;
+}
+.zyFooter .zyFooter_inner{
+    display: flex;
+    justify-content: flex-end;
+    flex: 1;
+    align-items: center;
+}
+.zyFooter .zyFooter_inner .zyButton{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: .88rem;
+    height: 80%;
+    font-size: .16rem;
+    margin-left: .08rem;
+    border-radius: .24rem;
+}

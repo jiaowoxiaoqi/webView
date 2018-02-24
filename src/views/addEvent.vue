@@ -80,25 +80,15 @@
                 </cell>
             </div>
         </group>
-        <popup v-model="show5" position="bottom" height="50%" :hide-on-blur="false">
-            <div class="popup2">
-                <group>
-                    <x-switch title="Mask disable" v-model="show5"></x-switch>
-                </group>
-                The mask cannot be clicked!
-            </div>
-        </popup>
     </div>
-    <div class="zyFooter zyBg_white">
-        <span>保存草稿</span><span>下一步</span>
-    </div>
+    <zy-footer></zy-footer>
     <zy-popup :pppConfig='pppConfig'></zy-popup>
  </div>
 </template>
 
 <script>
     import {collect,storage} from 'toolmanage'
-    import { Cell, Group, Datetime, Popup } from 'vux'
+    import { Cell, Group, Datetime, Popup, XSwitch } from 'vux'
     export default {
         data() {
             return {
@@ -129,10 +119,14 @@
             'zy-popup': (resolve) => {
                 require(['../components/popup/popup'], resolve);
             },
+            'zy-footer': (resolve) => {
+                require(['../components/footer/footer'], resolve);
+            },
             Group,
             Cell,
             Datetime,
-            Popup
+            Popup,
+            XSwitch
         },
         mounted () {
             // var myPlugin = require('')
@@ -182,5 +176,4 @@
 
 <style>
 
- 
 </style>
