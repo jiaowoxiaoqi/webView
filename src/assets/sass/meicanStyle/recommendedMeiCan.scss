@@ -1,0 +1,83 @@
+/* recommendedMeiCan.vue 对应style */
+.recommendMeican{
+    .recommendContent{
+        position: fixed;
+        top: .99rem;
+        right: 0;
+        left: 0;
+        box-sizing: border-box;
+        padding-bottom: 30%;
+        height: 88%;
+        overflow: scroll;
+        .editListRow{
+            box-sizing: border-box;
+            padding: 0 .15rem;
+            height: .35rem;
+            line-height: .35rem;
+            background: #EEE;
+            text-align: left;
+            color: #666;
+            font-size: .16rem;
+        }
+        .list{
+            background: #fff;
+            li{
+                .itemInner{
+                    display: flex;
+                    flex-direction: column;
+                    box-sizing: border-box;
+                    padding: 0 15px;
+                    border-bottom: 2px solid #CCC;
+                    .itemStatus{
+                        display: flex;
+                        justify-content: space-between;
+                        padding: 10px 0px;
+                        border-bottom: 1px solid #DEDEDE;
+                    }
+                    .itemContent{
+                        display: flex;
+                        padding: 15px 0;
+                        align-items: center;
+                        .img{
+                            width: 20%;
+                            height: 100%;
+                        }
+                        .content{
+                            width: 100%;
+                            margin-left: .15rem;
+                            display: flex;
+                            flex-direction: column;
+                            justify-content: flex-start;
+                            align-items: flex-start;
+                            .shopTitle{
+                                font-size: .14rem;
+                                font-weight: 600
+                            }
+                            .shopPhon{
+                                width: 100%;
+                                display: flex;
+                                justify-content: flex-start;
+                                margin-top: .1rem;
+                                color: #0096FF;
+                            }
+                            .shopAddres{
+                                width: 100%;
+                                display: flex;
+                                justify-content: flex-start;
+                                margin-top: .1rem;
+                                .address{
+                                    width: 75%;
+                                    text-align: left;
+                                }
+                            }
+                        }
+                    }
+                    .flexColumn{
+                        flex-direction: column;
+                        align-items: flex-start;
+                    }
+                }
+            }
+        }
+    }
+}

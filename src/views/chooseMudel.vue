@@ -68,7 +68,7 @@
             jump (type) {
                 switch (type) {
                     case "MeiCan":
-                        alert(type)
+                        this.$router.push('/recommendedMeiCan')
                         break;
                     case "TakeAway":
                         alert(type)

@@ -5,8 +5,11 @@ import tool from 'toolmanage'
 import App from './App'
 import router from './router'
 import store from './store/index'
+
 import axios from './api/axios'
 import api from './api/api'
+
+import Bus from './assets/js/bus'
 
 Vue.config.productionTip = false
 
@@ -19,6 +22,9 @@ import { Toast,MessageBox } from 'mint-ui'
 // 添加至vue prototype下的内容
 Vue.prototype.axios = axios
 Vue.prototype.api = api
+
+Vue.prototype.Bus = Bus
+
 Vue.prototype.tool = tool
 Vue.prototype.toast = Toast
 Vue.prototype.messageBox = MessageBox

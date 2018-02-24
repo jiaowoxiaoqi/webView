@@ -1,8 +1,8 @@
 /* api配置 */
 
 let enviroment = process.env.NODE_ENV == 'production' ? 'PRD' : 'DEV'
-enviroment = 'PRD'
-// enviroment = 'DEV'
+// enviroment = 'PRD'
+enviroment = 'DEV'
 
 const configuration = {
   'DEV': {
