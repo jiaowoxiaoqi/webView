@@ -1,0 +1,49 @@
+.detailPopup{
+    background: #fff;
+    .popupContent{
+        width: 100%;
+        height: calc(100% - .44rem) ;
+        margin-top: .44rem;
+        background: #fff;
+        .shopInfo{
+            width: 100%;
+            min-height: .80rem;
+            background: #EEE;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-sizing: border-box;
+            padding: .15rem; 
+            img{
+                width: .60rem;
+                height: .60rem;
+
+            }
+            .shopTitle{
+                width: 80%;
+                height: .60rem;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-around;
+                text-align: left;
+
+            }
+        }
+        .shopArea{
+            padding: .15rem;
+            border-bottom: 1px solid #ebebeb;
+            font-size: 15px;
+            color: #323232 !important;
+            display: flex;
+        }
+        .shopInformation{
+            li{
+                padding: .15rem;
+                border-bottom: 1px solid #ebebeb;
+                font-size: 15px;
+                color: #323232 !important;
+                display: flex;
+            }
+        }
+    }
+}

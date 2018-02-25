@@ -1,7 +1,27 @@
 <template>
     <sm-popup class="detailPopup" :pppConfig='pppConfig'>
-        <div>
-            这是商铺详情页
+        <div class="popupContent">
+            <div class="shopInfo">
+                <img class="shopImage" v-bind:src ='shopDetail.imgThumbnail'>
+                <div class="shopTitle">
+                    <h3>{{shopDetail.name}}</h3>
+                    <span>￥{{shopDetail.priceAvgVal}}/ 人</span>
+                </div>
+            </div>
+            <div class="shopArea">
+                <span>商区：</span><span>{{shopDetail.regionVal}}</span>
+                &nbsp;&nbsp;&nbsp;
+                <span>菜系：</span><span>{{shopDetail.categoryVal}}</span>
+            </div>
+            <ul class="shopInformation">
+                <li>
+                    <label for=""></label>
+                    <a :href="'tel:' + 1312">{{shopDetail.tel}}</a>
+                </li>
+                <li>
+                    <a >{{shopDetail.address}}</a>
+                </li>
+            </ul>
         </div>
     </sm-popup>
 </template>
@@ -17,7 +37,8 @@
                     height: '100%',
                     hideOnBlur: false,
                     showMask: false
-                }
+                },
+                shopDetail: {}
             }
 
         },
@@ -31,13 +52,12 @@
                 this.pppConfig.show = stuted
             });
             this.Bus.$on('shopItem',(item) => {
-                console.log(item)
+                this.shopDetail = item
             })
         }
     }
 </script>
 
-<style >
-
- 
+<style lang="scss">
+    @import '~@/assets/sass/popup/shopDetail.scss';
 </style>

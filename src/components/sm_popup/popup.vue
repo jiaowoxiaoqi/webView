@@ -1,5 +1,4 @@
 <template>
- <div class="popup">
     <popup 
         v-model="pppConfig.show" 
         :position="pppConfig.position" 
@@ -28,7 +27,6 @@
 
         </slot>
     </popup>
- </div>
 </template>
 
 <script>
