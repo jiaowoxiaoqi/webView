@@ -1,6 +1,6 @@
 <template>
  <div class="recommendMeican">
-    <zy-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></zy-header>
+    <sm-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></sm-header>
     <zy-topBar :itemtype='params.itemType'></zy-topBar>
     <div class="recommendContent" v-if="!isEmptyShopData">
         <div class="editListRow" v-if="shopData.selected.length>0">
@@ -61,6 +61,7 @@
       </div>
     </div>
     <add-button></add-button>
+    <detailPopup></detailPopup>
  </div>
 </template>
 
@@ -76,8 +77,6 @@
                     center_inner_show: false,
                     center_title_show: true,
                     right_show: false,
-                    right_title_show: false,
-                    right_icon_show: true,
                 },
                 venueZyHdTxt: {
                     zyhCtTxt: '我推荐的餐厅',
@@ -92,14 +91,17 @@
             }
         },
         components: {
-            'zyHeader': (resolve) => {
-                require(['@/components/zy_header/zy_header'], resolve);
+            'smHeader': (resolve) => {
+                require(['@/components/sm_header/sm_header'], resolve);
             },
             'zyTopBar': (res) => {
                 require(['@/components/I_tabBar/tabBar'], res);
             },
             'addButton': (res) => {
                 require(['@/components/I_button/addButton'], res);
+            },
+            'detailPopup': (res) => {
+                require(['../popup/shopDetail'], res);
             }
         },
         created() {

@@ -1,7 +1,7 @@
 <template>
     <div class="zy_page chooseMudelPage">
-        <zy-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></zy-header>
-        <zy-scroll :scrollbar="scrollbar"
+        <sm-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></sm-header>
+        <sm-scroll :scrollbar="scrollbar"
         :pullDownRefresh="pulldown">
             <div class="zyMgTop_15 chooseMudelContent content">
                 <div :class='["zy_flex_clumn zy_card",{"cardfrist":index==0,"cardTwo":index==1}]' v-for='(card,index) in cardList' :key='index' @click="jump(card.type)">
@@ -9,7 +9,7 @@
                     <span :class='{"zy_yellow":index==0,"zy_green":index==1}' v-text='card.title'></span>
                 </div>
             </div>
-        </zy-scroll>
+        </sm-scroll>
         
     </div>
 </template>
@@ -54,11 +54,11 @@
 
         },
         components: {
-            'zyHeader': (resolve) => {
-                require(['../components/zy_header/zy_header'], resolve);
+            'smHeader': (resolve) => {
+                require(['../components/sm_header/sm_header'], resolve);
             },
-            'zyScroll': (resolve) => {
-                require(['../components/zy_scroll/zy_scroll'], resolve);
+            'smScroll': (resolve) => {
+                require(['../components/sm_scroll/sm_scroll'], resolve);
             }
         },
         methods: {

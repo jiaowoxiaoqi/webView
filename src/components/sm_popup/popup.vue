@@ -5,16 +5,17 @@
         :position="pppConfig.position" 
         :height="pppConfig.height" 
         :hide-on-blur="pppConfig.hideOnBlur"
+        :show-mask="pppConfig.showMask"
         :on-show='popupInit(pppConfig.type)'>
         <slot name="popup_header">
-            <zy-header :zyhConfig='popupZyHdConfig'>
+            <sm-header :zyhConfig='popupZyHdConfig' :zyhrEvent='closePopup'>
                 <div slot="zy_header_center">
                     標題
                 </div>
                 <div slot="zy_header_right">
                     <i class="iconfont icon-ditu"></i>
                 </div>
-            </zy-header>
+            </sm-header>
         </slot>
         
         <slot>
@@ -31,20 +32,22 @@
 </template>
 
 <script>
-    import zyHeader from '../zy_header/zy_header.vue'
+    import smHeader from '../sm_header/sm_header.vue'
     
     import { Popup } from 'vux'
     export default {
         props: {
             pppConfig: {
-                // type: ,
                 required: false,
-                default:{
-                    type: '',
-                    show:false,
-                    position: 'bottom',
-                    height: '100%',
-                    hideOnBlur: true
+                default: function () {
+                   return {
+                        type: '',
+                        show: false,
+                        position: 'bottom',
+                        height: '100%',
+                        hideOnBlur: true,
+                        showMask: true
+                   } 
                 }//默认配置
             },
         },
@@ -59,7 +62,7 @@
         },
         components: {
             Popup,
-            zyHeader,
+            smHeader,
         },
         methods: {
             popupInit (type) {
@@ -84,7 +87,7 @@
                         break;
                 }
             },
-            leftFunction () {
+            closePopup () {
                 this.pppConfig.show = !this.pppConfig.show
             },
         }
