@@ -1,12 +1,12 @@
 <template>
-    <div class="zy_page chooseMudelPage">
-        <sm-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></sm-header>
+    <div class="sm_page chooseMudelPage">
+        <sm-header :smhConfig='venuesmHdConfig' :smhTxt='venuesmHdTxt' :smhlEvent='backPage'></sm-header>
         <sm-scroll :scrollbar="scrollbar"
         :pullDownRefresh="pulldown">
-            <div class="zyMgTop_15 chooseMudelContent content">
-                <div :class='["zy_flex_clumn zy_card",{"cardfrist":index==0,"cardTwo":index==1}]' v-for='(card,index) in cardList' :key='index' @click="jump(card.type)">
+            <div class="smMgTop_15 chooseMudelContent content">
+                <div :class='["sm_flex_clumn sm_card",{"cardfrist":index==0,"cardTwo":index==1}]' v-for='(card,index) in cardList' :key='index' @click="jump(card.type)">
                     <img :src="card.imgUrl" :alt="card.imgAlt">
-                    <span :class='{"zy_yellow":index==0,"zy_green":index==1}' v-text='card.title'></span>
+                    <span :class='{"sm_yellow":index==0,"sm_green":index==1}' v-text='card.title'></span>
                 </div>
             </div>
         </sm-scroll>
@@ -20,7 +20,7 @@
         data() {
             return {
                 message: 'vue',
-                venueZyHdConfig: {
+                venuesmHdConfig: {
                     left_show: true,
                     left_icon_show: true,
                     left_title_show: false,
@@ -31,8 +31,8 @@
                     right_title_show: false,
                     right_icon_show: true,
                 },
-                venueZyHdTxt: {
-                    zyhCtTxt: '首 页',
+                venuesmHdTxt: {
+                    smhCtTxt: '首 页',
                 },
                 cardList: [
                     {

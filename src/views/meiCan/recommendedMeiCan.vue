@@ -1,7 +1,7 @@
 <template>
  <div class="recommendMeican">
-    <sm-header :zyhConfig='venueZyHdConfig' :zyhTxt='venueZyHdTxt' :zyhlEvent='backPage'></sm-header>
-    <zy-topBar :itemtype='params.itemType'></zy-topBar>
+    <sm-header :smhConfig='venuesmHdConfig' :smhTxt='venuesmHdTxt' :smhlEvent='backPage'></sm-header>
+    <sm-topBar :itemtype='params.itemType'></sm-topBar>
     <div class="recommendContent" v-if="!isEmptyShopData">
         <div class="editListRow" v-if="shopData.selected.length>0">
             <label>已选餐厅</label>
@@ -60,7 +60,7 @@
         <p>请点击右下角的“添加”按钮去添加吧</p>
       </div>
     </div>
-    <add-button></add-button>
+    <add-button :btnImgUrl='btnImg' :btnHandle='goPage'></add-button>
     <detailPopup></detailPopup>
  </div>
 </template>
@@ -69,7 +69,7 @@
     export default {
         data() {
             return {
-                venueZyHdConfig: {
+                venuesmHdConfig: {
                     left_show: true,
                     left_icon_show: true,
                     left_title_show: false,
@@ -78,8 +78,12 @@
                     center_title_show: true,
                     right_show: false,
                 },
-                venueZyHdTxt: {
-                    zyhCtTxt: '我推荐的餐厅',
+                venuesmHdTxt: {
+                    smhCtTxt: '我推荐的餐厅',
+                },
+                btnImg: {
+                    imgUrl: require('@/assets/images/pic_01.png'),
+                    imgAlt: '添加外卖'
                 },
                 isEmptyShopData: true,
                 shopData: [],
@@ -94,7 +98,7 @@
             'smHeader': (resolve) => {
                 require(['@/components/sm_header/sm_header'], resolve);
             },
-            'zyTopBar': (res) => {
+            'smTopBar': (res) => {
                 require(['@/components/I_tabBar/tabBar'], res);
             },
             'addButton': (res) => {
@@ -119,9 +123,11 @@
             });
         },
         methods: {
+            // 返回上页
             backPage () {
                 this.$router.back()
             },
+            // 获取我推荐的商店
             queryMyShops: async function() {
                 let params = this.params
                 const res = await this.axios.post(this.api.queryMyShops, params)
@@ -130,11 +136,16 @@
                     this.shopData = res.data;
                 }
             },
-            changeStuted(item){
+            // 查看餐厅详情
+            changeStuted (item) {
                 let stuted = true
                 this.Bus.$emit('changeStuted', stuted);
                 this.Bus.$emit('shopItem',item)
             },
+            // but事件
+            goPage () {
+                this.$router.push('/selectAddres')
+            }
         }
     }
 </script>

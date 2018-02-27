@@ -1,5 +1,5 @@
 <template>
-    <sm-popup class="detailPopup" :pppConfig='pppConfig'>
+    <sm-popup class="detailPopup" :pppConfig='pppConfig' :popupHd='pppHd'>
         <div class="popupContent">
             <div class="shopInfo">
                 <img class="shopImage" v-bind:src ='shopDetail.imgThumbnail'>
@@ -15,11 +15,14 @@
             </div>
             <ul class="shopInformation">
                 <li>
-                    <label for=""></label>
+                    <i class="iconfont icon-phone color-blue"></i>
                     <a :href="'tel:' + 1312">{{shopDetail.tel}}</a>
+                    <i class="iconfont icon-jiantou color-gray"></i>
                 </li>
-                <li>
+                <li @click='goMap()'>
+                    <i class="iconfont icon-ditu color-blue"></i>
                     <a >{{shopDetail.address}}</a>
+                    <i class="iconfont icon-jiantou color-gray"></i>
                 </li>
             </ul>
         </div>
@@ -38,6 +41,9 @@
                     hideOnBlur: false,
                     showMask: false
                 },
+                pppHd:{
+                    title: ''
+                },
                 shopDetail: {}
             }
 
@@ -53,7 +59,16 @@
             });
             this.Bus.$on('shopItem',(item) => {
                 this.shopDetail = item
+                this.pppHd.title = item.name
             })
+        },
+        methods: {
+            goMap () {
+                this.$router.push({
+                    name: 'Map',
+                    // query: {N: this._data.shopData.fullName, X: this._data.shopData.el, Y: this._data.shopData.nl}
+                })
+            }
         }
     }
 </script>
