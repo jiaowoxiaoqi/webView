@@ -22,21 +22,23 @@ export default new Router({
         require(['@/views/chooseMudel'], res)
       }
     },
-    // meiCan系列路由
+    // 我的推荐--外卖/茶歇
     {
-      path: '/recommendedMeiCan',
-      name: 'recommendedMeiCan',
+      path: '/recommended',
+      name: 'recommended',
       component: (res) => {
-        require(['@/views/meiCan/recommendedMeiCan.vue'], res)
+        require(['@/views/recommended.vue'], res)
       }
     },
+    // 选择地址
     {
       path: '/selectAddres',
       name: 'selectAddres',
       component: (res) => {
-        require(['@/views/meiCan/step0SelectAddres.vue'], res)
+        require(['@/views/selectAddres.vue'], res)
       }
     },
+    // meiCan系列路由
     {
       path: '/selectShop',
       name: 'selectShop',

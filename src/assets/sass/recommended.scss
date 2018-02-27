@@ -1,5 +1,5 @@
-/* recommendedMeiCan.vue 对应style */
-.recommendMeican{
+/* recommended.vue 对应style */
+.recommend{
     .recommendContent{
         position: fixed;
         top: .99rem;
@@ -77,6 +77,12 @@
                         align-items: flex-start;
                     }
                 }
+            }
+        }
+        .addcontent{
+            p{
+                margin-top: .08rem;
+                color: #999;
             }
         }
     }

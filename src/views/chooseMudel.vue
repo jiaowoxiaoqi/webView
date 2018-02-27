@@ -9,7 +9,6 @@
                 </div>
             </div>
         </sm-scroll>
-        
     </div>
 </template>
 
@@ -65,14 +64,16 @@
                 this.$router.back()
             },
             jump (type) {
-                switch (type) {
-                    case "MeiCan":
-                        this.$router.push('/recommendedMeiCan')
-                        break;
-                    case "TakeAway":
-                        alert(type)
-                        break;
-                }
+                sessionStorage.setItem('mudelType',type)
+                this.$router.push('/recommended')
+                // switch (type) {
+                //     case "MeiCan":
+                //         this.$router.push('/recommended')
+                //         break;
+                //     case "TakeAway":
+                //         alert(type)
+                //         break;
+                // }
             }
         }
     }

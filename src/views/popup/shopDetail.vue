@@ -74,5 +74,5 @@
 </script>
 
 <style lang="scss">
-    @import '~@/assets/sass/popup/shopDetail.scss';
+    @import '~@/assets/sass/popupStyle/shopDetail.scss';
 </style>
