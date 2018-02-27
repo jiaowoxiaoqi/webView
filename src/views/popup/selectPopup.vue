@@ -8,7 +8,7 @@
             </ul>
         </sm-scroll>
         <sm-scroll class="popupContent" v-if="hospitalData.length>0">
-            <div class="listItem" v-for='(item,index) in hospitalData' :key='index'>
+            <div class="hospital" v-for='(item,index) in hospitalData' :key='index'>
                 {{item.name}}
             </div>
         </sm-scroll>
@@ -56,7 +56,7 @@
             popupInit () {
                 this.Bus.$on('isOpenPopup', (popupConfig) => {
                     this.pppConfig.show = popupConfig.isOpen
-                    this.listData = []
+                    this.listData = this.hospitalData = []
                     switch (popupConfig.type) {
                         case 'Province':
                             this.pppHd.title = "选择省份"
@@ -68,6 +68,7 @@
                             break;
                         case 'Hospital':
                             this.pppHd.title = "选择医院"
+                            this.getHospitalList()
                             break;
                     }
                 });
@@ -90,13 +91,13 @@
             },
             getHospitalList: async function (searchInput) {
                 let params = {
-                    cityId: this.params.cityId,
+                    cityId: sessionStorage.getItem("cityId"),
                     pageSize: 20,
                     pageIndex: 1,
-                    searchInput:searchInput?searchInput:''
+                    // searchInput:searchInput?searchInput:''
                 }
                 const res = await this.axios.post(this.api.getHospitalList, params)
-                this.hospital = res.rows
+                this.hospitalData = res.rows
             },
             selectItem (item) {
                 switch (this.pppHd.title) {

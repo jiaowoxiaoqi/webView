@@ -94,6 +94,14 @@ export default {
                     this.Bus.$emit('isOpenPopup', popupConfig)
                     break;
                 case 'Hospital':
+                    if(!this.selectData.city){
+                        this.toast({
+                            message: '请先选择城市',
+                            position: 'bottom',
+                            duration: 5000
+                        })
+                        return;
+                    }
                     this.Bus.$emit('isOpenPopup', popupConfig)
                     break;
             }
