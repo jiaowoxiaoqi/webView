@@ -43,6 +43,14 @@
                 font-size: 15px;
                 color: #323232 !important;
                 display: flex;
+                justify-content: space-between;
+                align-items: center;
+                a{
+                    width: 100%;
+                    text-align: left;
+                    box-sizing: border-box;
+                    padding-left: .08rem;
+                }
             }
         }
     }

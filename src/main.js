@@ -17,7 +17,7 @@ Vue.config.productionTip = false
 const FastClick = require('fastclick')
 FastClick.attach(document.body)
 
-import { Toast,MessageBox } from 'mint-ui'
+import {Toast, MessageBox} from 'mint-ui'
 
 // 添加至vue prototype下的内容
 Vue.prototype.axios = axios
