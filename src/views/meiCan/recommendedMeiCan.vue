@@ -2,7 +2,7 @@
  <div class="recommendMeican">
     <sm-header :smhConfig='venuesmHdConfig' :smhTxt='venuesmHdTxt' :smhlEvent='backPage'></sm-header>
     <sm-topBar :itemtype='params.itemType'></sm-topBar>
-    <div class="recommendContent" v-if="!isEmptyShopData">
+    <sm-scroll class="recommendContent" v-if="!isEmptyShopData">
         <div class="editListRow" v-if="shopData.selected.length>0">
             <label>已选餐厅</label>
         </div>
@@ -52,7 +52,7 @@
                 </div>
             </li>
         </ul>
-    </div>
+    </sm-scroll>
     <div class="recommendContent" v-else>
       <div class="addcontent">
         <img src="" title="未选择餐厅，请选择">
@@ -82,7 +82,7 @@
                     smhCtTxt: '我推荐的餐厅',
                 },
                 btnImg: {
-                    imgUrl: require('@/assets/images/pic_01.png'),
+                    imgUrl: require('@/assets/images/addShops_01 .png'),
                     imgAlt: '添加外卖'
                 },
                 isEmptyShopData: true,
@@ -100,6 +100,9 @@
             },
             'smTopBar': (res) => {
                 require(['@/components/I_tabBar/tabBar'], res);
+            },
+            'smScroll': (resolve) => {
+                require(['@/components/sm_scroll/sm_scroll'], resolve);
             },
             'addButton': (res) => {
                 require(['@/components/I_button/addButton'], res);

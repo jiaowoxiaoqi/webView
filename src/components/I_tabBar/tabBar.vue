@@ -43,7 +43,8 @@
       }
     },
     methods: {
-      lookFilterList(type) {//展示我的城市/我的医院对应下拉列表
+      //展示我的城市/我的医院
+      lookFilterList(type) {
         this.isCityShow = false
         this.isHospitail = false
         if(this.lookNum==1){
@@ -74,9 +75,9 @@
           }
           this.lookNum=1
         }
-        
       },
-      getCity: async function() {//获取我的城市列表
+      //获取我的城市列表
+      getCity: async function() {
         let params = {
           itemType:this.itemtype
         }
@@ -85,7 +86,8 @@
           this.mergeArray(this.cityList,res.data,'ct')
         }
       },
-      getHospital: async function() {//获取我的医院列表
+      //获取我的医院列表
+      getHospital: async function() {
 
         let params = {
           itemType:this.itemtype,
@@ -96,7 +98,8 @@
           this.mergeArray(this.hospitalList,res.data,'hp')
         }
       },
-      closeFilter(item,type) {//选择对应城市/医院存储在session，以及Bus传递
+      //选择对应城市/医院存储在session，以及Bus传递
+      closeFilter(item,type) {
         if(type=="city"){
           this.city = item
           this.isCityShow = false
@@ -118,7 +121,8 @@
         }
         this.lookNum=1
       },
-      mergeArray:function (arr1, arr2,type){ //mergeArray 数组去重合并
+      //mergeArray 数组去重合并
+      mergeArray:function (arr1, arr2,type){ 
         for (var i = 0 ; i < arr1.length ; i ++ ){
           for(var j = 0 ; j < arr2.length ; j ++ ){
             if (type=="hp"&&arr1[i].recommendId === arr2[j].recommendId){

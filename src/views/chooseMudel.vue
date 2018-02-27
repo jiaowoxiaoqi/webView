@@ -1,8 +1,7 @@
 <template>
     <div class="sm_page chooseMudelPage">
         <sm-header :smhConfig='venuesmHdConfig' :smhTxt='venuesmHdTxt' :smhlEvent='backPage'></sm-header>
-        <sm-scroll :scrollbar="scrollbar"
-        :pullDownRefresh="pulldown">
+        <sm-scroll>
             <div class="smMgTop_15 chooseMudelContent content">
                 <div :class='["sm_flex_clumn sm_card",{"cardfrist":index==0,"cardTwo":index==1}]' v-for='(card,index) in cardList' :key='index' @click="jump(card.type)">
                     <img :src="card.imgUrl" :alt="card.imgAlt">
