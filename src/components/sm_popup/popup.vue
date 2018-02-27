@@ -7,12 +7,12 @@
         :show-mask="pppConfig.showMask"
         :on-show='popupInit(pppConfig.type)'>
         <slot name="popup_header">
-            <sm-header :zyhConfig='popupZyHdConfig' :zyhrEvent='closePopup'>
-                <div slot="zy_header_center">
-                    標題
+            <sm-header :smhConfig='popupsmHdConfig' :smhrEvent='closePopup'>
+                <div slot="sm_header_center">
+                    {{popupHd.title}}
                 </div>
-                <div slot="zy_header_right">
-                    <i class="iconfont icon-ditu"></i>
+                <div slot="sm_header_right">
+                    <i class="iconfont icon-close1"></i>
                 </div>
             </sm-header>
         </slot>
@@ -48,10 +48,18 @@
                    } 
                 }//默认配置
             },
+            popupHd: {
+                type: null,
+                default: function () {
+                    return {
+                        title: '标题'
+                    }
+                }
+            }
         },
         data() {
             return {
-                popupZyHdConfig: {
+                popupsmHdConfig: {
                     left_show: false,
                     center_show: true,
                     right_show: true,

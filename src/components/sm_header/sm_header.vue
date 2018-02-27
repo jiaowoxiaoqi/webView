@@ -1,29 +1,29 @@
 <template>
-    <!-- <div :class="zyhClass"> //动态添加class==beast -->
-    <div class="zy_header zy_flex_row zyPd_boxSzing zyPdRow_15 zyBg_blue zyCl_white">
-        <div class="zy_header_left zy_flex_row" @click='backEvent'>
-            <slot name="zy_header_left" v-if='zyhConfig.left_show'>
-                <i class="iconfont icon-jiantou1" v-if='zyhConfig.left_icon_show'></i>
-                <span class="zy_header_lTxt" v-if='zyhConfig.left_title_show'>{{zyhTxt.zyhLfTxt}}</span>
+    <!-- <div :class="smhClass"> //动态添加class==beast -->
+    <div class="sm_header sm_flex_row smPd_boxSzing smPdRow_15 smBg_blue smCl_white">
+        <div class="sm_header_left sm_flex_row" @click='backEvent'>
+            <slot name="sm_header_left" v-if='smhConfig.left_show'>
+                <i class="iconfont icon-jiantou1" v-if='smhConfig.left_icon_show'></i>
+                <span class="sm_header_lTxt" v-if='smhConfig.left_title_show'>{{smhTxt.smhLfTxt}}</span>
             </slot>
         </div>
-        <div class="zy_header_center zy_flex_row">
-            <slot name="zy_header_center" v-if='zyhConfig.center_show'>
-                <div class="zy_header_searchInput zy_flex_row" v-if='zyhConfig.center_inner_show&&zyhConfig.center_title_show'>
+        <div class="sm_header_center sm_flex_row">
+            <slot name="sm_header_center" v-if='smhConfig.center_show'>
+                <div class="sm_header_searchInput sm_flex_row" v-if='smhConfig.center_inner_show&&smhConfig.center_title_show'>
                     <i class="iconfont icon-buoumaotubiao13" @click='serachIconEvent'></i>
-                    <form action="javascript:return true;" class="zyMgLf_8">
-                        <input type="search" v-model="zyhTxt.zyhCtVal" :placeholder="zyhTxt.zyhCtPlaceholder" class="selectInput" @keyup='serachEvent'>
+                    <form action="javascript:return true;" class="smMgLf_8">
+                        <input type="search" v-model="smhTxt.smhCtVal" :placeholder="smhTxt.smhCtPlaceholder" class="selectInput" @keyup='serachEvent'>
                     </form>
                 </div>
-                <div class="zy_header_title" v-if='!zyhConfig.center_inner_show&&zyhConfig.center_title_show'>
-                    {{zyhTxt.zyhCtTxt}}
+                <div class="sm_header_title" v-if='!smhConfig.center_inner_show&&smhConfig.center_title_show'>
+                    {{smhTxt.smhCtTxt}}
                 </div>
             </slot>
         </div>
-        <div class="zy_header_right zy_flex_row" @click='otherEvent'>
-            <slot name="zy_header_right" v-if='zyhConfig.right_show'>
-                <span class="zy_header_rTxt" v-if='zyhConfig.right_title_show'>{{zyhTxt.zyhRgTxt}}</span>
-                <i class="iconfont icon-ditu" v-if='zyhConfig.right_icon_show'></i>
+        <div class="sm_header_right sm_flex_row" @click='otherEvent'>
+            <slot name="sm_header_right" v-if='smhConfig.right_show'>
+                <span class="sm_header_rTxt" v-if='smhConfig.right_title_show'>{{smhTxt.smhRgTxt}}</span>
+                <i class="iconfont icon-ditu" v-if='smhConfig.right_icon_show'></i>
             </slot> 
         </div>
     </div>
@@ -33,14 +33,14 @@
 export default {
     props: {
         /*动态添加class==beast
-            zyhClass:{
+            smhClass:{
                 type: Array,
                 default: () => {
-                    return ["zy_header", "zy_flex_row", "zyPd_boxSzing", "zyPdRow_15", "zyBg_blue", "zyCl_red"]
+                    return ["sm_header", "sm_flex_row", "smPd_boxSzing", "smPdRow_15", "smBg_blue", "smCl_red"]
                 }
             },
         */
-        zyhConfig:{
+        smhConfig:{
             type: Object,
             default: () => {
                 return {
@@ -56,31 +56,31 @@ export default {
                 }
             }
         },
-        zyhTxt:{
+        smhTxt:{
             type: Object,
             default: function () {
                 return {
-                    zyhLfTxt: '返回',
-                    zyhCtTxt: '列表页',
-                    zyhCtPlaceholder: '请输入搜索信息',
-                    zyhCtVal: '',
-                    zyhRgTxt: '菜单'
+                    smhLfTxt: '返回',
+                    smhCtTxt: '列表页',
+                    smhCtPlaceholder: '请输入搜索信息',
+                    smhCtVal: '',
+                    smhRgTxt: '菜单'
                 }
             }
         },
-        zyhlEvent:{
+        smhlEvent:{
             type: Function,
             default: function () {
                 console.log('点击了header==>left部分')
             }
         },
-        zyhcIconEvent:{
+        smhcIconEvent:{
             type: Function,
             default: function () {
                     console.log('通过icon点击了header==>content部分')
             }
         },
-        zyhcSearchEvent:{
+        smhcSearchEvent:{
             type: Function,
             default: function (e) {
                 let keyCode = e.keyCode
@@ -90,7 +90,7 @@ export default {
                 }
             }
         },
-        zyhrEvent:{
+        smhrEvent:{
             type: Function,
             default: function () {
                 console.log('点击了header==>rightt部分')
@@ -107,23 +107,23 @@ export default {
     },
     methods: {
         backEvent () {
-            this.zyhlEvent()
+            this.smhlEvent()
         },
         serachIconEvent (type) {
-            this.zyhcIconEvent(type)
+            this.smhcIconEvent(type)
         },
         serachEvent (e) {
-            this.zyhcSearchEvent(e)
+            this.smhcSearchEvent(e)
         },
         otherEvent () {
-            this.zyhrEvent()
+            this.smhrEvent()
         },
     }
 }
 </script>
 
 <style lang="less">
-    .zy_header{
+    .sm_header{
         position: fixed;
         left: 0;
         top: 0;
@@ -131,20 +131,20 @@ export default {
         height: .44rem;
         z-index: 9;
         align-content: center;
-        .zy_header_left{
+        .sm_header_left{
             flex: 1 0 auto;
             height: 100%;
             justify-content: flex-start;
             font-size: .14rem
         }
-        .zy_header_center{
+        .sm_header_center{
             flex: 6 0 auto;
             height: 100%;
             justify-content: center;
             font-size: .16rem;
             box-sizing: border-box;
             padding: .02rem .08rem;
-            .zy_header_searchInput{
+            .sm_header_searchInput{
                 width: 100%;
                 height: 68%;
                 background: #fff;
@@ -167,7 +167,7 @@ export default {
                 }
             }
         }
-        .zy_header_right{
+        .sm_header_right{
             flex: 1 0 auto;
             height: 100%;
             justify-content: flex-end;

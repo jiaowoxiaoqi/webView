@@ -1,23 +1,44 @@
 <template>
-  <div class="button" @click="go(0)">
+  <div class="button" @click="goPage">
     <div class="button_inner">
-        <img src="" alt="添加餐厅">
+        <img :src="btnImgUrl.imgUrl" :alt="btnImgUrl.imgAlt">
     </div>
   </div>
 </template>
 
 <script>
- export default {
- data() {
- return {
+export default {
+    props:{
+        btnImgUrl:{
+            type: null,
+            default: function () {
+                return {
+                    imgUrl: require('@/assets/images/logo.png'),
+                    imgAlt: '添加外卖'
+                }
+            }
+        },
+        btnHandle:{
+            type: Function,
+            default: function () {
+                console.log("触发了btn事件"+new Date())
+            }
+        }
+    },
+    data() {
+        return {
 
- }
+        }
+    },
+    components: {
 
- },
- components: {
-
- }
- }
+    },
+    methods: {
+        goPage () {
+            this.btnHandle()
+        }
+    }
+}
 </script>
 
 <style lang="less">
@@ -40,6 +61,11 @@
             color: rgb(255, 255, 255);
             background-color: rgb(38, 162, 255);
             box-shadow: 9px 7px 18px 0px rgba(0,113,255,0.3);
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+            }
         }
     }
  
