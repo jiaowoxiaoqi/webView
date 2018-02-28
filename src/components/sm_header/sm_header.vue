@@ -9,7 +9,7 @@
         </div>
         <div class="sm_header_center sm_flex_row">
             <slot name="sm_header_center" v-if='smhConfig.center_show'>
-                <div class="sm_header_searchInput sm_flex_row" v-if='smhConfig.center_inner_show&&smhConfig.center_title_show'>
+                <div class="sm_header_searchInput sm_flex_row" v-if='smhConfig.center_inner_show&&!smhConfig.center_title_show'>
                     <i class="iconfont icon-buoumaotubiao13" @click='serachIconEvent'></i>
                     <form action="javascript:return true;" class="smMgLf_8">
                         <input type="search" v-model="smhTxt.smhCtVal" :placeholder="smhTxt.smhCtPlaceholder" class="selectInput" @keyup='serachEvent'>
@@ -86,7 +86,7 @@ export default {
                 let keyCode = e.keyCode
                 if(keyCode=='13') {  
                     e.preventDefault();     
-                    alert(keyCode)
+                    alert(this.smhTxt.smhCtVal)
                 }
             }
         },

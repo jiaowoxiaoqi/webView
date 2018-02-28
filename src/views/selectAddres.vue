@@ -10,21 +10,21 @@
                 </li>
                 <li @click='openSelectPopup("Province")'>
                     <label for="" class="sm_w2">省份</label>
-                    <input type="text" placeholder="(必选)" :value="selectData.province" readonly="readonly" >
+                    <input type="text" placeholder="(必选)" :value="selectData.province.txt" readonly="readonly" >
                     <i class="iconfont icon-jiantou color-gray"></i>
                 </li>
                 <li @click='openSelectPopup("City")'>
                     <label for="" class="sm_w2">城市</label>
-                    <input type="text" placeholder="(必选)" :value="selectData.city" readonly="readonly">
+                    <input type="text" placeholder="(必选)" :value="selectData.city.txt" readonly="readonly">
                     <i class="iconfont icon-jiantou color-gray"></i>
                 </li>
                 <li class="hospital" @click='openSelectPopup("Hospital")'>
                     <label for="" class="sm_w4">医院名称</label>
-                    <input type="text" placeholder="(必选)" :value="selectData.hospital" readonly="readonly">
+                    <input type="text" placeholder="(必选)" :value="selectData.hospital.name" readonly="readonly">
                     <i class="iconfont icon-jiantou color-gray"></i>
                 </li>
             </ul>
-            <span>下&nbsp;一&nbsp;步</span>
+            <span @click="jump">下&nbsp;一&nbsp;步</span>
         </div>
         <select-popup></select-popup>
     </div>
@@ -49,9 +49,19 @@ export default {
             },
             selectData: {
                 country: '中国',
-                province: '',
-                city: '',
-                hospital: ''
+                province: {
+                    txt: sessionStorage.getItem('province'),
+                    regionId: sessionStorage.getItem('provinceId')
+                },
+                city: {
+                    txt: sessionStorage.getItem('city'),
+                    regionId: sessionStorage.getItem('cityId'),
+                    pingRegionId: sessionStorage.getItem('pingRegionId')
+                },
+                hospital: {
+                    name: sessionStorage.getItem('hospital'),
+                    rowId: sessionStorage.getItem('hospitalId'), 
+                }
             },
         }
     },
@@ -63,10 +73,13 @@ export default {
     },
     mounted () {
         this.Bus.$on('selectProvince', (item) => {
-            this.selectData.province = item.txt
+            this.selectData.province = item
         })
         this.Bus.$on('selectCity', (item) => {
-            this.selectData.city = item.txt
+            this.selectData.city = item
+        })
+        this.Bus.$on('selectHospital', (item) => {
+            this.selectData.hospital = item
         })
     },
     methods: {
@@ -105,7 +118,18 @@ export default {
                     this.Bus.$emit('isOpenPopup', popupConfig)
                     break;
             }
-        }
+        },
+        jump(){
+            if (this.selectData.country && this.selectData.province && this.selectData.city && this.selectData.hospital) {
+                let hospitalId = this.selectData.hospital.rowId
+                this.$router.push({name: 'selectShop', query: {id: hospitalId}})
+            } else {
+                this.toast({
+                    message: '请查看必选信息是否完善',
+                    duration: 2000,
+                });
+            }
+        },
     }
 }
 </script>

@@ -7,8 +7,14 @@
                 </li>
             </ul>
         </sm-scroll>
-        <sm-scroll class="popupContent" v-if="hospitalData.length>0">
-            <div class="hospital" v-for='(item,index) in hospitalData' :key='index'>
+        <sm-scroll ref="scroll" class="popupContent" v-if="hospitalData.length>0"
+            :data="hospitalData"
+            :scrollbar="scrollbar"
+            :pullDownRefresh="pulldown"
+            :pullUpLoad="pullUpLoad"
+            @pullingDown="onloadData"
+            @pullingUp="onPullingUp">
+            <div class="hospital" v-for='(item,index) in hospitalData' :key='index' @click="selectItem(item)">
                 {{item.name}}
             </div>
         </sm-scroll>
@@ -16,6 +22,7 @@
 </template>
 
 <script type="text/ecmascript-6">
+    import BScroll from 'better-scroll'
     export default {
         data() {
             return {
@@ -30,8 +37,18 @@
                 pppHd:{
                     title: ''
                 },
+                pulldown: {
+                    threshold: 90,
+                    stop: 40
+                },
+                pullUpLoad: {
+                    threshold: 50
+                },
+                scrollbar: true,
                 listData: [],
-                hospitalData: []
+                hospitalData: [],
+                hospitalPage: 1,
+                closeGetHospital: false // 是否阻止获取医院请求
             }
 
         },
@@ -47,11 +64,21 @@
             this.popupInit()
         },
         methods: {
-            goMap () {
-                this.$router.push({
-                    name: 'Map',
-                    // query: {N: this._data.shopData.fullName, X: this._data.shopData.el, Y: this._data.shopData.nl}
-                })
+            onloadData () {
+                this.getHospitalList('Refresh')
+            },
+            onPullingUp () {
+                if(this.closeGetHospital) {
+                    console.log(this.$refs)
+                    this.$refs.scroll.forceUpdate()
+                    this.toast({
+                        message: '已无更多医院信息',
+                        position: 'bottom',
+                        duration: 2500
+                    })
+                    return;
+                }
+                this.getHospitalList('Pulling')
             },
             popupInit () {
                 this.Bus.$on('isOpenPopup', (popupConfig) => {
@@ -68,7 +95,7 @@
                             break;
                         case 'Hospital':
                             this.pppHd.title = "选择医院"
-                            this.getHospitalList()
+                            this.getHospitalList('Refresh')
                             break;
                     }
                 });
@@ -89,15 +116,34 @@
                 const res = await this.axios.post(this.api.getCityList, params)
                 this.listData = res.data
             },
-            getHospitalList: async function (searchInput) {
+            getHospitalList: async function (type) {
+                
+                if(type=='Refresh') {
+                    this.hospitalPage = 1
+                    this.closeGetHospital = false
+                }else{
+                    this.hospitalPage ++
+                }
                 let params = {
                     cityId: sessionStorage.getItem("cityId"),
                     pageSize: 20,
-                    pageIndex: 1,
+                    pageIndex: this.hospitalPage,
                     // searchInput:searchInput?searchInput:''
                 }
                 const res = await this.axios.post(this.api.getHospitalList, params)
-                this.hospitalData = res.rows
+                if(type=='Refresh') {
+                    this.hospitalData = res.rows
+                }else{
+                    res.rows.forEach((item)=> {
+                        this.hospitalData.push(item)
+                    })
+                }
+                
+                if(res.rows.length<20) {
+                    
+                    this.closeGetHospital = true
+                    
+                }
             },
             selectItem (item) {
                 switch (this.pppHd.title) {
@@ -113,7 +159,9 @@
                         this.Bus.$emit('selectCity', item)
                         break;
                     case '选择医院':
-                        this.pppHd.title = ""
+                        sessionStorage.setItem("hospital", item.name)
+                        sessionStorage.setItem("hospitalId", item.rowId)
+                        this.Bus.$emit('selectHospital', item)
                         break;
                 }
                 this.pppConfig.show = false

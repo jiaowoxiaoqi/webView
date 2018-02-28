@@ -40,7 +40,7 @@ export default new Router({
     },
     // meiCan系列路由
     {
-      path: '/selectShop',
+      path: '/meiCan/selectShop',
       name: 'selectShop',
       component: (res) => {
         require(['@/views/meiCan/step1SelectShop.vue'], res)
@@ -55,10 +55,10 @@ export default new Router({
     },
     // takeAway系列路由
     {
-      path: '/recommendedTakeAway',
-      name: 'recommendedTakeAway',
+      path: '/takeAway/entryTakeAway',
+      name: 'entryTakeAway',
       component: (res) => {
-        require(['@/views/takeAway/recommendedTakeAway.vue'], res)
+        require(['@/views/takeAway/step1EntryTakeAway.vue'], res)
       }
     },
     // 地图
