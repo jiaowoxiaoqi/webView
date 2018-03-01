@@ -6,15 +6,16 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 Vue.use(Vuex)
+
 import vuxStatus from './model/vuxStatus'
 import userConfig from './model/userConfig'
 
 const store = new Vuex.Store({
-    strict: process.env.NODE_ENV !== 'production',
-    modules: {
-        vuxStatus: vuxStatus,
-        userConfig: userConfig
-    }
+  strict: process.env.NODE_ENV !== 'production',
+  modules: {
+    vuxStatus: vuxStatus,
+    userConfig: userConfig
+  }
 })
 
-  export default store
+export default store
