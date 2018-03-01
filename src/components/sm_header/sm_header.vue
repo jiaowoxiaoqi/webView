@@ -10,7 +10,7 @@
         <div class="sm_header_center sm_flex_row">
             <slot name="sm_header_center" v-if='smhConfig.center_show'>
                 <div class="sm_header_searchInput sm_flex_row" v-if='smhConfig.center_inner_show&&!smhConfig.center_title_show'>
-                    <i class="iconfont icon-buoumaotubiao13" @click='serachIconEvent'></i>
+                    <i class="iconfont icon-buoumaotubiao13 color-gray" @click='serachIconEvent'></i>
                     <form action="javascript:return true;" class="smMgLf_8">
                         <input type="search" v-model="smhTxt.smhCtVal" :placeholder="smhTxt.smhCtPlaceholder" class="selectInput" @keyup='serachEvent'>
                     </form>
@@ -132,6 +132,7 @@ export default {
         z-index: 9;
         align-content: center;
         .sm_header_left{
+            width: 15%;
             flex: 1 0 auto;
             height: 100%;
             justify-content: flex-start;
@@ -139,6 +140,7 @@ export default {
         }
         .sm_header_center{
             flex: 6 0 auto;
+            width: 70%;
             height: 100%;
             justify-content: center;
             font-size: .16rem;
@@ -146,15 +148,12 @@ export default {
             padding: .02rem .08rem;
             .sm_header_searchInput{
                 width: 100%;
-                height: 68%;
+                height: 80%;
                 background: #fff;
                 box-sizing: border-box;
                 padding-left: .14rem;
                 border-radius: .24rem;
                 justify-content: flex-start;
-                .icon-search03{
-                    color: #888;
-                }
                 form{
                     width: 84%;
                     height: 90%;
@@ -169,6 +168,7 @@ export default {
         }
         .sm_header_right{
             flex: 1 0 auto;
+            width: 15%;
             height: 100%;
             justify-content: flex-end;
             font-size: .14rem
