@@ -1,5 +1,14 @@
 <template>
-    <sm-popup class="detailPopup" :pppConfig='pppConfig' :popupHd='pppHd'>
+    <sm-popup class="selectlPopup" :pppConfig='pppConfig' :popupHd='pppHd'>
+        <div class="searchHospital" v-if='hospitalData.length>0'>
+            <div class="searchContent">
+                <i class="iconfont icon-buoumaotubiao13 color-gray" @click="searchHospital"></i>
+                <form action="javascript:return true;" class="smMgLf_8">
+                    <input class="selectInput" type="search" placeholder="请输入医院名称" v-model="searchInput" @change="searchHospital">
+                </form>
+            </div>
+        </div>
+        <!-- 选择省份/城市 -->
         <sm-scroll class="popupContent" v-if="listData.length>0">
             <ul class="listGrounp">
                 <li class="listItem" v-for='(item,index) in listData' :key='index' @click="selectItem(item)">
@@ -7,7 +16,8 @@
                 </li>
             </ul>
         </sm-scroll>
-        <sm-scroll ref="scroll" class="popupContent" v-if="hospitalData.length>0"
+        <!-- 选择医院 -->
+        <sm-scroll ref="scroll" class="popupContent hospitalContent" v-if="hospitalData.length>0"
             :data="hospitalData"
             :scrollbar="scrollbar"
             :pullDownRefresh="pulldown"
@@ -26,7 +36,7 @@
     export default {
         data() {
             return {
-                pppConfig:{
+                pppConfig:{ // popup navheader配置显示
                     type: '',
                     show: false,
                     position: 'bottom',
@@ -34,20 +44,21 @@
                     hideOnBlur: false,
                     showMask: false
                 },
-                pppHd:{
+                pppHd:{ // popup navheader配置文本
                     title: ''
                 },
-                pulldown: {
+                pulldown: { // 下拉加载配置
                     threshold: 90,
                     stop: 40
                 },
                 pullUpLoad: {
-                    threshold: 50
+                    threshold: 50 // 上拉加载距离
                 },
-                scrollbar: true,
-                listData: [],
-                hospitalData: [],
-                hospitalPage: 1,
+                scrollbar: false, // 禁用滚动条
+                listData: [], // 省份/城市数据
+                hospitalData: [], // 医院数据
+                hospitalPage: 1, // 初始查询医院page
+                searchInput: '', // 搜索医院信息
                 closeGetHospital: false // 是否阻止获取医院请求
             }
 
@@ -64,6 +75,9 @@
             this.popupInit()
         },
         methods: {
+            searchHospital () {
+                this.getHospitalList('Refresh',this.searchInput)
+            },
             onloadData () {
                 this.getHospitalList('Refresh')
             },
@@ -116,7 +130,7 @@
                 const res = await this.axios.post(this.api.getCityList, params)
                 this.listData = res.data
             },
-            getHospitalList: async function (type) {
+            getHospitalList: async function (type,searchInput) {
                 
                 if(type=='Refresh') {
                     this.hospitalPage = 1
@@ -128,7 +142,7 @@
                     cityId: sessionStorage.getItem("cityId"),
                     pageSize: 20,
                     pageIndex: this.hospitalPage,
-                    // searchInput:searchInput?searchInput:''
+                    searchInput:searchInput?searchInput:''
                 }
                 const res = await this.axios.post(this.api.getHospitalList, params)
                 if(type=='Refresh') {
