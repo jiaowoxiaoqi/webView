@@ -27,13 +27,31 @@
             <i :class="['iconfont icon-duihaocheckmark17 color-gray',{'selectStatus':item.checked}]" @click.stop='selectShop(item,index)'></i>
         </div>
     </sm-scroll>
+    <p class="prompt">如餐厅不在列表内，请<span class="color-blue">手工录入</span></p>
+    <sm-footer class="footerConter">
+        <div class="footerInner">
+            <div class="footerLeft" @click="openStagingShop">
+                <img src="../../assets/images/addShops_01 .png" alt="">
+                <div class="cartHint">
+                    <p>已推荐餐厅<span class="color-blue">{{selectToal}}</span>个</p>
+                    <p>还能推荐<span class="color-orangeYellow">{{oddToal}}</span>个</p>
+                </div>
+            </div>
+            <div class="footerRight">
+                提&nbsp;&nbsp;交
+            </div>
+        </div>
+    </sm-footer>
     <detail-popup></detail-popup>
+    <stagin-shop></stagin-shop>
  </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
 import detailPopup from '../popup/shopDetail'
+import staginShop from '../popup/stagingShop'
+import { mapMutations } from 'vuex'
 export default {
     data() {
         return {
@@ -73,9 +91,17 @@ export default {
                 maxPriceAvg: this.$store.state.userConfig.ishopParam.maxPriceAvg,
                 minPriceAvg: this.$store.state.userConfig.ishopParam.minPriceAvg,
             },
-            selectedShops: [] // 选择的商户
-            // maxSelectShop: 
+            selectedShops: [], // 选择的商户
+            maxSelectShop: this.$store.state.userConfig.maxSelectShop
         }
+    },
+    computed: {
+        selectToal: function() {//已选择的个数
+            return this.selectedShops.length;
+        },
+        oddToal: function() {//还可以选择的个数
+            return this.maxSelectShop-this.selectedShops.length;
+        },
     },
     components: {
         'smHeader': (resolve) => {
@@ -84,20 +110,27 @@ export default {
         'smScroll': (resolve) => {
             require(['@/components/sm_scroll/sm_scroll'], resolve);
         },
-        detailPopup
+        'smFooter': (resolve) => {
+            require(['@/components/sm_footer/sm_footer'], resolve);
+        },
+        detailPopup,
+        staginShop
     },
     created () {
         console.log(this.$store.state.userConfig.isShowItem5)
         this.queryShops('Refresh')
     },
     methods: {
+        ...mapMutations([
+            'setSelectShops',
+        ]),
         backPage () {
             this.$router.back()
         },
-        onloadData () {
+        onloadData () { // 下拉
             this.queryShops('Refresh')
         },
-        onPullingUp () {
+        onPullingUp () { // 上拉
             if(this.closeGetShopList) {
                 this.$refs.scroll.forceUpdate()
                 this.toast({
@@ -139,7 +172,7 @@ export default {
             this.Bus.$emit('changeStuted', stuted);
             this.Bus.$emit('shopItem',item)
         },
-        selectShop (item,index) {
+        selectShop (item,index) { // 选择商户
             let isActiveSelect = item.recommendId?false:true // 是否为首次选择的餐厅
             let isRepeat = false // 是否存在于选择的商户列表里
             this.selectedShops.forEach((sShop) => {
@@ -147,10 +180,10 @@ export default {
                     isRepeat = true
                 }
             })
-            if(!isRepeat&&isActiveSelect) { // 做不存在处理
-                if(this.selectedShops.length >= this.$store.state.userConfig.maxSelectShop){//勾选列表内容是否超出规则限制？messageBox:push
+            if(!isRepeat&&isActiveSelect) { // 做不存在录入处理
+                if(this.selectedShops.length >= this.maxSelectShop){//勾选列表内容是否超出规则限制？messageBox:push
                     this.messageBox({
-                        message: `您已达到选择餐厅上限`,
+                        message: `你已达到选择餐厅上限`,
                         confirmButtonText: '确认'
                     })
                 }else {
@@ -167,7 +200,16 @@ export default {
                     }
                 }
             }
-        }
+            this.setSelectShops(this.selectedShops)
+        },
+        openStagingShop () { // 查看已选择商户
+            let popupConfig = {
+                isOpen: true,
+                formMoudel: sessionStorage.getItem('mudelType')
+            }
+            this.Bus.$emit('openStaginShop', popupConfig);
+        },
+        
     }
 }
 </script>

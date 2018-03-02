@@ -9,12 +9,14 @@ Vue.use(Vuex)
 
 import vuxStatus from './model/vuxStatus'
 import userConfig from './model/userConfig'
+import shopInfo from './model/shopInfo'
 
 const store = new Vuex.Store({
-  strict: process.env.NODE_ENV !== 'production',
+  // strict: process.env.NODE_ENV !== 'production',
   modules: {
     vuxStatus: vuxStatus,
-    userConfig: userConfig
+    userConfig: userConfig,
+    shopInfo: shopInfo
   }
 })
 

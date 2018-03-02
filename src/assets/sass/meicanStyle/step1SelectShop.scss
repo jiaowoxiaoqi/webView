@@ -55,4 +55,58 @@
             }
         }
     }
+    .prompt{
+        position: fixed;
+        bottom: .49rem;
+        width: 100%;
+        text-align: left;
+        box-sizing: border-box;
+        padding: .08rem 0;
+        background: #fff;
+        border-top: 1px solid #999;
+        border-bottom: 1px solid #999;
+        span{
+            margin-left: .08rem;
+            text-decoration: underline;
+        }
+    }
+    .footerInner{
+        height: 100%;
+        background: white;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .footerLeft{
+            width: 60%;
+            display: flex;
+            align-items: center;
+            img{
+                width: 20%;
+            }
+            .cartHint{
+                width: 100%;
+                box-sizing: border-box;
+                padding-left: .08rem;
+                text-align: left;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                p{
+                    font-size: .12rem;
+                    color: #666;
+                    span{
+                        margin: 0 .08rem;
+                    }
+                }
+            }
+        }
+        .footerRight{
+            width: 30%;
+            height: 100%;
+            background: #0099ff;
+            text-align: center;
+            line-height: .49rem;
+            color: #fff;
+        }
+    }
 }
