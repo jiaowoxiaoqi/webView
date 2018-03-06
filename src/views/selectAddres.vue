@@ -32,6 +32,7 @@
 
 <script type="text/ecmascript-6">
 import selectPopup from './popup/selectPopup'
+import { mapMutations } from 'vuex'
 export default {
     data() {
         return {
@@ -83,6 +84,9 @@ export default {
         })
     },
     methods: {
+        ...mapMutations([
+            'setIsQueryMyShop'
+        ]),
         backPage () {
             this.$router.back()
         },
@@ -122,6 +126,7 @@ export default {
         jump(){
             if (this.selectData.country && this.selectData.province && this.selectData.city && this.selectData.hospital) {
                 let hospitalId = this.selectData.hospital.rowId
+                this.setIsQueryMyShop(true)
                 this.$router.push({name: 'selectShop', query: {id: hospitalId}})
             } else {
                 this.toast({

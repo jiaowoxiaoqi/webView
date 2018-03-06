@@ -1,7 +1,11 @@
 <template>
  <div class="selectShopPage">
-    <sm-header :smhConfig='sshopHdConfig' :smhTxt='sshopHdTxt' :smhlEvent='backPage'>
-        
+    <sm-header 
+        :smhConfig='sshopHdConfig' 
+        :smhTxt='sshopHdTxt'
+        :smhcSearchEvent ='searchEvent'
+        :smhcIconEvent ='searchIconEvent' 
+        :smhlEvent='backPage'>
     </sm-header>
     <sm-scroll ref="scroll" class="sshopContent"
         :data="shopList"
@@ -10,7 +14,7 @@
         :pullUpLoad="pullUpLoad"
         @pullingDown="onloadData"
         @pullingUp="onPullingUp">
-        <div class="shopInfo" v-for="(item,index) in shopList" :key="index" @click='changeStuted(item)'>
+        <div :class="['shopInfo',{'smBg_gray2':item.isDead}]" v-for="(item,index) in shopList" :key="index" @click='openShopDeta(item)'>
             <!--<img :src="item.imgThumbnail" v-if="item.imgThumbnail">-->
             <img v-bind:src='item.imgThumbnail' class="shopImg">
             <div class="shopContent">
@@ -27,7 +31,7 @@
             <i :class="['iconfont icon-duihaocheckmark17 color-gray',{'selectStatus':item.checked}]" @click.stop='selectShop(item,index)'></i>
         </div>
     </sm-scroll>
-    <p class="prompt">如餐厅不在列表内，请<span class="color-blue">手工录入</span></p>
+    <p class="prompt">如餐厅不在列表内，请<span class="color-blue" @click='goEntryShop'>手工录入</span></p>
     <sm-footer class="footerConter">
         <div class="footerInner">
             <div class="footerLeft" @click="openStagingShop">
@@ -37,7 +41,7 @@
                     <p>还能推荐<span class="color-orangeYellow">{{oddToal}}</span>个</p>
                 </div>
             </div>
-            <div class="footerRight">
+            <div class="footerRight" @click='submitShop'>
                 提&nbsp;&nbsp;交
             </div>
         </div>
@@ -75,8 +79,8 @@ export default {
                 threshold: 90,
                 stop: 40
             },
-            pullUpLoad: {
-                threshold: 50 // 上拉加载距离
+            pullUpLoad: { // 上拉加载配置
+                threshold: 50 
             },
             scrollbar: false, // 禁用滚动条
             shopList: [], // 获取的商户列表
@@ -91,8 +95,12 @@ export default {
                 maxPriceAvg: this.$store.state.userConfig.ishopParam.maxPriceAvg,
                 minPriceAvg: this.$store.state.userConfig.ishopParam.minPriceAvg,
             },
-            selectedShops: [], // 选择的商户
-            maxSelectShop: this.$store.state.userConfig.maxSelectShop
+            oldKeyword: '', // 上一次搜索条件
+            selectedShops: this.$store.state.shopInfo.selectedShops, // 选择的商户
+            entryShops: this.$store.state.shopInfo.entryShops, // 手工录入的商户
+            maxSelectShop: this.$store.state.userConfig.maxSelectShop, // 最大选择条件
+            isSubmitData: false, // 提交状态
+            isQueryMyShop: this.$store.state.shopInfo.isQueryMyShop, // 是否获取我的推荐餐厅
         }
     },
     computed: {
@@ -117,15 +125,48 @@ export default {
         staginShop
     },
     created () {
-        console.log(this.$store.state.userConfig.isShowItem5)
         this.queryShops('Refresh')
+        if(this.isQueryMyShop) {
+            this.queryMyShops()
+        }
     },
     methods: {
         ...mapMutations([
             'setSelectShops',
+            'setEntryShops',
         ]),
+        searchIconEvent () { // 搜索icon事件
+            this.params.keyword = this.sshopHdTxt.smhCtVal
+            this.queryShops("Refresh")
+        },
+        searchEvent (e) { // 搜索框事件
+            let keyCode = e.keyCode
+            if(keyCode=='13') {  
+                e.preventDefault();     
+                this.params.keyword = this.sshopHdTxt.smhCtVal
+                this.queryShops("Refresh")
+            }
+        },
         backPage () {
-            this.$router.back()
+            if(this.selectToal>0){
+                this.messageBox({
+                    message: '是否放弃提交所推荐餐厅？',
+                    confirmButtonText: '确定',
+                    showCancelButton: true,
+                    cancelButtonText: '取消',
+                    closeOnClickModal: false
+                }).then(action => {
+                    if(action=='confirm'){
+                        this.destroyCache()
+                        this.$router.back()
+                    }else{
+                        console.log(action)
+                    }
+                })
+            }else{
+                this.destroyCache()
+                this.$router.back()
+            }
         },
         onloadData () { // 下拉
             this.queryShops('Refresh')
@@ -142,6 +183,38 @@ export default {
             }
             this.queryShops('PullingUp')
         },
+        queryMyShops: async function() {//获取已录入数据
+            let params = {
+                "itemType": 5,
+                "hospitalId": this.params.hospitalId
+            }
+            const res = await this.axios.post(this.api.queryMyShops, params)
+            // 遍历得到的已录入自定义餐厅，判断isDead?false:enteredShop.push(res.data.customed[i])
+            if (res.data.customed.length > 0) {
+                let enteredShop = []
+                let customed = res.data.customed // 已录入的自定义餐厅
+                customed.forEach( item => {
+                    if(!item.isDead) {
+                        enteredShop.push(item)
+                    }
+                });
+                sessionStorage.setItem('enteredShop',JSON.stringify(enteredShop)) // 存储未过期的已推荐的录入餐厅
+            }
+            // 遍历得到的已录入餐厅库餐厅，判断isDead?false:this.myShops.push(res.data.customed[i])
+            if (res.data.selected.length > 0) {
+                let selectedShop = []
+                let selected = res.data.selected // 已选择的餐库餐厅
+                selected.forEach(item => {
+                    if(!item.isDead) {
+                        selectedShop.push(item)
+                    }
+                });
+                sessionStorage.setItem('selectedShop',JSON.stringify(selectedShop)) // 存储未过期的已选择的餐库餐厅
+                this.selectedShops.unshift.apply(this.selectedShops,selectedShop)
+                this.setSelectShops(this.selectedShops)
+            }
+            
+        },
         queryShops: async function(type) { //获取商户列表
             if(type=='Refresh') {
                 this.params.PageIndex = 1
@@ -151,26 +224,73 @@ export default {
             }
             let params = this.params
             const res = await this.axios.post(this.api.queryShops, params)
-            console.log(res)
+            let stagingShop = this.$store.state.shopInfo.selectedShops
             if (res.status){
-                // this.shopList=this.shopList.concat(res.data)
+                if(stagingShop.length>0){
+                    res.data.forEach(item=>{
+                        for(let i=0,l=stagingShop.length;i<l;i++){
+                            if (item.shopId==stagingShop[i].shopId){
+                                item.checked = true
+                            }
+                        }
+                    })
+                }
                 if(type=='Refresh') {
                     this.shopList = res.data
                 }else{
-                    res.data.forEach((item)=> {
-                        this.shopList.push(item)
-                    })
+                    if(this.params.keyword&&res.data.length==0){
+                        this.toast({
+                            message: '找不到相关信息',
+                            duration: 2500
+                        })
+                    }else if(this.params.keyword==this.oldKeyword){
+                        this.shopList=this.shopList.concat(res.data)
+                    }else if(this.params.keyword!=this.oldKeyword){
+                        this.shopList=res.data
+                    }else{
+                        this.shopList=this.shopList.concat(res.data)
+                    }
                 }
                 if(res.data.length<20) {
                     this.closeGetShopList = true
                 }
             }
+            this.oldKeyword=this.params.keyword;
             
         },
-        changeStuted (item) { // 查看餐厅详情
-            let stuted = true
-            this.Bus.$emit('changeStuted', stuted);
-            this.Bus.$emit('shopItem',item)
+        postShops: async function() { // 提交shop-2
+            let pass = localStorage.getItem('channel') // 进入ishop渠道channel/link
+            let submitMsg = this.$store.state.userConfig.ishopSubmitMsg
+            this.selectedShops.unshift.apply(this.selectedShops, this.entryShops)
+            let params = {
+                cityId: this.params.cityId,
+                hospitalId: this.params.hospitalId,
+                itemType: 5,
+                shops: this.selectedShops,
+                channel: pass
+            }
+            const res = await this.axios.post(this.api.postMyShops, params)
+            if(res){this.isSubmitData=false}
+            if (res.status) {
+                this.destroyCache()
+                if(pass=='app'&& submitMsg){
+                    this.messageBox({
+                        message: submitMsg,
+                        confirmButtonText: '确定',
+                        closeOnClickModal: false
+                    }).then(action => {
+                        this.$router.push('/recommended')
+                    })
+                }else{
+                    this.$router.push('/recommended')
+                }
+            } else {
+                this.toast({
+                    message: res.msg,
+                    position: 'bottom',
+                    duration: 2500
+                })
+            }
         },
         selectShop (item,index) { // 选择商户
             let isActiveSelect = item.recommendId?false:true // 是否为首次选择的餐厅
@@ -202,6 +322,21 @@ export default {
             }
             this.setSelectShops(this.selectedShops)
         },
+        submitShop () { // 提交shop-1
+            if(this.isSubmitData){
+                this.toast({
+                    message: '正在提交ing..请勿重复操作',
+                    duration: 800,
+                });
+                return;
+            }
+            this.isSubmitData = true
+            this.postShops()
+        },
+        openShopDeta (item) { // 查看餐厅详情
+            this.Bus.$emit('openShopDeta', true);
+            this.Bus.$emit('shopItem',item)
+        }, 
         openStagingShop () { // 查看已选择商户
             let popupConfig = {
                 isOpen: true,
@@ -209,7 +344,15 @@ export default {
             }
             this.Bus.$emit('openStaginShop', popupConfig);
         },
-        
+        goEntryShop () {// 打开手工录入页面
+            this.$router.push('/entryShop')
+        },
+        destroyCache () {
+            sessionStorage.removeItem('enteredShop')
+            sessionStorage.removeItem('selectedShop')
+            this.setSelectShops([])
+            this.setEntryShops([])
+        } 
     }
 }
 </script>

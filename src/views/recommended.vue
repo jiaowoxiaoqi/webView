@@ -4,7 +4,7 @@
     <sm-header :smhConfig='venuesmHdConfig' :smhTxt='venuesmHdTxt' :smhlEvent='backPage'></sm-header>
     <!-- 我的推荐/下拉 -->
     <sm-topBar :itemtype='params.itemType'></sm-topBar>
-    <!-- 我推荐的外卖 -->
+    <!-- 我推荐的餐厅 -->
     <sm-scroll class="recommendContent" v-if="!isEmptyShopData&&formMoudel=='MeiCan'">
         <div class="editListRow" v-if="shopData.selected.length>0">
             <label>已选餐厅</label>
@@ -56,7 +56,7 @@
             </li>
         </ul>
     </sm-scroll>
-    <!-- 我推荐的茶歇 -->
+    <!-- 我推荐的外卖/茶歇 -->
     <sm-scroll class="recommendContent" v-if="!isEmptyShopData&&formMoudel=='TakeAway'">
         <div class="editListRow" v-if="shopData.customed.length>0">
             <label>已录入外卖/茶歇</label>
@@ -87,7 +87,7 @@
             </li>
         </ul>
     </sm-scroll>
-    <!-- 外卖为空 -->
+    <!-- 餐厅为空 -->
     <div class="recommendContent" v-if="isEmptyShopData&&formMoudel=='MeiCan'">
       <div class="addcontent smMgTop_84">
         <img src="../assets/images/icon_6.png" title="未选择餐厅，请选择">
@@ -95,7 +95,7 @@
         <p>请点击右下角的“添加”按钮去添加吧</p>
       </div>
     </div>
-    <!-- 茶歇为空 -->
+    <!-- 外卖/茶歇为空 -->
     <div class="recommendContent" v-if="isEmptyShopData&&formMoudel=='TakeAway'">
         <div class="addcontent smMgTop_84">
             <img src="../assets/images/icon_20.png" title="未选择外卖，请选择">

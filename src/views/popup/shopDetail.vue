@@ -1,5 +1,5 @@
 <template>
-    <sm-popup class="detailPopup" :pppConfig='pppConfig' :popupHd='pppHd'>
+    <sm-popup class="detailPopup" :pppConfig='pppConfig' :popupHd='pppHd' :closePopupHandle='closePopup'>
         <div class="popupContent">
             <div class="shopInfo">
                 <img class="shopImage" v-bind:src ='shopDetail.imgThumbnail'>
@@ -54,7 +54,7 @@
             },
         },
         created () {
-            this.Bus.$on('changeStuted', (stuted) => {
+            this.Bus.$on('openShopDeta', (stuted) => {
                 this.pppConfig.show = stuted
             });
             this.Bus.$on('shopItem',(item) => {
@@ -62,12 +62,19 @@
                 this.pppHd.title = item.name
             })
         },
+        beforeDestroy() {
+            this.Bus.$off('changeStuted');
+            this.Bus.$off('shopItem')
+        },
         methods: {
             goMap () {
                 this.$router.push({
                     name: 'Map',
                     // query: {N: this._data.shopData.fullName, X: this._data.shopData.el, Y: this._data.shopData.nl}
                 })
+            },
+            closePopup() {
+                this.Bus.$emit('openShopDeta', false);
             }
         }
     }

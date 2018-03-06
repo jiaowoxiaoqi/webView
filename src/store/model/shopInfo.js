@@ -47,11 +47,15 @@ function filterMaxQty (array, itemType) {
 
 const shopInfo = {
   state: {
+    isQueryMyShop: true,
     selectedShops: [], // 选择的商户
     entryShops: [], // 录入的商户
     entryTakeAway: [] // 录入的外卖/茶歇
   },
   mutations: {
+    setIsQueryMyShop (state, isQueryMyShop) {
+      state.isQueryMyShop = isQueryMyShop
+    },
     setSelectShops (state, array) {
       state.selectedShops = array
     },

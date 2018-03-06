@@ -5,13 +5,14 @@
         :height="pppConfig.height" 
         :hide-on-blur="pppConfig.hideOnBlur"
         :show-mask="pppConfig.showMask"
-        :on-show='popupInit(pppConfig.type)'>
+        :on-show='popupInit(pppConfig.type)'
+        :on-hide='popupDestroy'>
         <slot name="popup_header">
-            <sm-header :smhConfig='popupsmHdConfig' :smhrEvent='closePopup'>
+            <sm-header :smhConfig='popupsmHdConfig'>
                 <div slot="sm_header_center">
                     {{popupHd.title}}
                 </div>
-                <div slot="sm_header_right">
+                <div slot="sm_header_right" @click='closePopup'>
                     <i class="iconfont icon-close1"></i>
                 </div>
             </sm-header>
@@ -55,6 +56,13 @@
                         title: '标题'
                     }
                 }
+            },
+            closePopupHandle: {
+                type: Function,
+                default: function () {
+                    console.log('关闭popup')
+                    this.pppConfig.show = false
+                }
             }
         },
         data() {
@@ -93,8 +101,14 @@
                         break;
                 }
             },
+            popupDestroy () {
+                // this.pppConfig.show = false
+                this.Bus.$off('changeStuted');
+                this.Bus.$off('shopItem')
+            },
             closePopup () {
-                this.pppConfig.show = !this.pppConfig.show
+                this.closePopupHandle()
+                // this.Bus.$emit('changeStuted',false);
             },
         }
     }

@@ -1,10 +1,9 @@
 <template>
-    <sm-popup class="stagingShop" :pppConfig='pppConfig' :popupHd='pppHd'>
-        <!-- 选择省份/城市 -->
+    <sm-popup class="stagingShop" :pppConfig='pppConfig' :popupHd='pppHd' :closePopupHandle='closePopup'>
         <sm-scroll class="popupContent">
             <ul class="selectShopGrounp" v-if='selectedShops.length>0'>
                 <li class="title">选择餐厅</li>
-                <li class="selectShop" v-for='(shop,index) in selectedShops' :key='index' @click='changeStuted(shop)'>
+                <li class="selectShop" v-for='(shop,index) in selectedShops' :key='index'>
                     <img v-bind:src='shop.imgThumbnail' class="shopImg">
                     <div class="shopContent">
                         <div class="shopTitle">
@@ -19,8 +18,19 @@
                     </div>
                 </li>
             </ul>
-            <ul class="entryShopGrounp" v-if='false'>
+            <ul class="entryShopGrounp" v-if='entryShops.length>0'>
                 <li class="title">手工录入餐厅</li>
+                <li class="entryShop" v-for="(item,index) in entryShops" :key="index">
+                    <div>
+                        <h3>餐厅：{{item.name}}</h3>
+                    </div>
+                    <div>
+                        <span>电话：{{item.address}}</span>
+                    </div>
+                    <div>
+                        <span>地址：{{item.tel}}</span>
+                    </div>
+                </li>
             </ul>
         </sm-scroll>
         <sm-footer class="footerContent">
@@ -36,12 +46,10 @@
                 </div>
             </div>
         </sm-footer>
-        <detail-popup></detail-popup>
     </sm-popup>
 </template>
 
 <script type="text/ecmascript-6">
-    import detailPopup from '../popup/shopDetail'
     export default {
         data() {
             return {
@@ -79,11 +87,22 @@
             },
             'smFooter': (resolve) => {
                 require(['@/components/sm_footer/sm_footer'], resolve);
-            },
-            detailPopup
+            }
         },
         created () {
-            this.popupInit()
+            this.Bus.$on('openStaginShop', (popupConfig) => {
+                this.pppConfig.show = popupConfig.isOpen
+                switch (popupConfig.formMoudel) {
+                    case 'MeiCan':
+                        this.pppHd.title = "已选择餐厅"
+                        this.selectedShops = this.$store.state.shopInfo.selectedShops
+                        this.entryShops = this.$store.state.shopInfo.entryShops
+                        break;
+                    case 'TakeAway':
+                        this.pppHd.title = "已选择餐厅"
+                        break;
+                }
+            });
         },
         // mounted () {
         //     this.Bus.$on('openStaginShop',(status)=>{
@@ -91,16 +110,15 @@
         //     })
         // },
         methods: {
-            searchHospital () {
-                this.getHospitalList('Refresh',this.searchInput)
-            },
-            changeStuted (item) {
-                this.Bus.$emit('changeStuted', true);
-                this.Bus.$emit('shopItem',item)
+            closePopup () {
+                let popupConfig = {
+                    isOpen: false,
+                    formMoudel: 'Popup'
+                }
+                this.Bus.$emit('openStaginShop', popupConfig);
             },
             onPullingUp () {
                 if(this.closeGetHospital) {
-                    console.log(this.$refs)
                     this.$refs.scroll.forceUpdate()
                     this.toast({
                         message: '已无更多医院信息',
@@ -111,89 +129,6 @@
                 }
                 this.getHospitalList('Pulling')
             },
-            popupInit () {
-                this.Bus.$on('openStaginShop', (popupConfig) => {
-                    this.Bus.$emit('changeStuted', false);
-                    this.pppConfig.show = popupConfig.isOpen
-                    // this.listData = this.hospitalData = []
-                    switch (popupConfig.formMoudel) {
-                        case 'MeiCan':
-                            this.pppHd.title = "已选择餐厅"
-                            this.selectedShops = this.$store.state.shopInfo.selectedShops
-                            console.log(this.$store.state.shopInfo.selectedShops)
-                            break;
-                        case 'TakeAway':
-                            this.pppHd.title = "已选择餐厅"
-                            break;
-                    }
-                });
-            },
-            getProvinceList: async function () {
-                let params = {
-                    'regionId': "945e4101-78b8-11e6-b6c0-f80f41fdc7f8",
-                    'type': 1
-                }
-                const res = await this.axios.post(this.api.getCityList, params)
-                this.listData = res.data
-            },
-            getCityList: async function () {
-                let params = {
-                    regionId: sessionStorage.getItem("provinceId"),
-                    type: 2
-                }
-                const res = await this.axios.post(this.api.getCityList, params)
-                this.listData = res.data
-            },
-            getHospitalList: async function (type,searchInput) {
-                
-                if(type=='Refresh') {
-                    this.hospitalPage = 1
-                    this.closeGetHospital = false
-                }else{
-                    this.hospitalPage ++
-                }
-                let params = {
-                    cityId: sessionStorage.getItem("cityId"),
-                    pageSize: 20,
-                    pageIndex: this.hospitalPage,
-                    searchInput:searchInput?searchInput:''
-                }
-                const res = await this.axios.post(this.api.getHospitalList, params)
-                if(type=='Refresh') {
-                    this.hospitalData = res.rows
-                }else{
-                    res.rows.forEach((item)=> {
-                        this.hospitalData.push(item)
-                    })
-                }
-                
-                if(res.rows.length<20) {
-                    
-                    this.closeGetHospital = true
-                    
-                }
-            },
-            selectItem (item) {
-                switch (this.pppHd.title) {
-                    case '选择省份':
-                        sessionStorage.setItem("province", item.txt)
-                        sessionStorage.setItem("provinceId", item.regionId)
-                        this.Bus.$emit('selectProvince', item)
-                        break;
-                    case '选择城市':
-                        sessionStorage.setItem("city", item.txt)
-                        sessionStorage.setItem("cityId", item.regionId)
-                        sessionStorage.setItem("pingRegionId", item.pingRegionId)
-                        this.Bus.$emit('selectCity', item)
-                        break;
-                    case '选择医院':
-                        sessionStorage.setItem("hospital", item.name)
-                        sessionStorage.setItem("hospitalId", item.rowId)
-                        this.Bus.$emit('selectHospital', item)
-                        break;
-                }
-                this.pppConfig.show = false
-            }
         }
     }
 </script>

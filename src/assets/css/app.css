@@ -55,6 +55,9 @@
     .smBg_gray{
         background: gray;
     }
+    .smBg_gray2{
+        background: #EEE;
+    }
     /* color */
     .smCl_red{
         color: red

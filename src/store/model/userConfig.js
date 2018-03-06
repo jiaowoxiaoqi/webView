@@ -76,7 +76,6 @@ const userConfig = {
       state.isShowItem5 = exist(item5Config)
       state.isShowItem7 = exist(item5Config)
       if (state.isShowItem5) {
-        console.log(item5Config[0])
         let max5 = filterMaxQty(item5Config[0].recommendTypes, 5)
         state.maxSelectShop = max5.type1
         state.maxEntryShop = max5.type2
@@ -87,13 +86,6 @@ const userConfig = {
         state.waimaiEntry = max7.type3
         state.chaxieEntry = max7.type4
       }
-      console.log(state.isShowItem5)
-      console.log(state.isShowItem7)
-      console.log(state.maxSelectShop)
-      console.log(state.maxEntryShop)
-      console.log(state.totalEntry)
-      console.log(state.waimaiEntry)
-      console.log(state.chaxieEntry)
       // array.forEach((item) => {
       //   if (item.itemType == 5) {
       //     state.isShowItem5 = true
