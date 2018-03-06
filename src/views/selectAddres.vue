@@ -97,9 +97,18 @@ export default {
             }
             switch (type) {
                 case 'Province':
-                    this.Bus.$emit('isOpenPopup', popupConfig)
+                    this.selectData.city.txt = ''
+                    this.selectData.hospital.name = ''
+                    sessionStorage.setItem('city','')
+                    sessionStorage.setItem('cityId','')
+                    sessionStorage.setItem('pingRegionId','')
+                    sessionStorage.setItem('hospital','')
+                    sessionStorage.setItem('hospitalId','')
                     break;
                 case 'City':
+                    this.selectData.hospital.name = ''
+                    sessionStorage.setItem('hospital','')
+                    sessionStorage.setItem('hospitalId','')
                     if(!this.selectData.province){
                         this.toast({
                             message: '请先选择省份',
@@ -108,7 +117,6 @@ export default {
                         })
                         return;
                     }
-                    this.Bus.$emit('isOpenPopup', popupConfig)
                     break;
                 case 'Hospital':
                     if(!this.selectData.city){
@@ -119,15 +127,20 @@ export default {
                         })
                         return;
                     }
-                    this.Bus.$emit('isOpenPopup', popupConfig)
                     break;
             }
+            this.Bus.$emit('isOpenPopup', popupConfig)
         },
         jump(){
             if (this.selectData.country && this.selectData.province && this.selectData.city && this.selectData.hospital) {
                 let hospitalId = this.selectData.hospital.rowId
-                this.setIsQueryMyShop(true)
-                this.$router.push({name: 'selectShop', query: {id: hospitalId}})
+                let formMudel = sessionStorage.getItem('mudelType')
+                if(formMudel=='MeiCan'){
+                    this.setIsQueryMyShop(true)
+                    this.$router.push({name: 'selectShop', query: {id: hospitalId}})
+                }else if(formMudel=='TakeAway'){
+                    this.$router.push({name: 'entryTakeAway', query: {id: hospitalId}})
+                }
             } else {
                 this.toast({
                     message: '请查看必选信息是否完善',

@@ -32,6 +32,17 @@
                     </div>
                 </li>
             </ul>
+            <ul class="entryShopGrounp" v-if='entryTakeAway.length>0'>
+                <li class="title">录入外卖/茶歇</li>
+                <li class="entryShop" v-for="(item,index) in entryTakeAway" :key="index">
+                    <div>
+                        <h3>类型{{item.value}}</h3>
+                    </div>
+                    <div>
+                        <span>餐厅：{{item.name}}</span>
+                    </div>
+                </li>
+            </ul>
         </sm-scroll>
         <sm-footer class="footerContent">
             <div class="footerInner">
@@ -100,6 +111,7 @@
                         break;
                     case 'TakeAway':
                         this.pppHd.title = "已选择餐厅"
+                        this.entryTakeAway = this.$store.state.shopInfo.entryTakeAway
                         break;
                 }
             });

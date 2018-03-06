@@ -148,25 +148,20 @@ export default {
             }
         },
         backPage () {
-            if(this.selectToal>0){
-                this.messageBox({
-                    message: '是否放弃提交所推荐餐厅？',
-                    confirmButtonText: '确定',
-                    showCancelButton: true,
-                    cancelButtonText: '取消',
-                    closeOnClickModal: false
-                }).then(action => {
-                    if(action=='confirm'){
-                        this.destroyCache()
-                        this.$router.back()
-                    }else{
-                        console.log(action)
-                    }
-                })
-            }else{
-                this.destroyCache()
-                this.$router.back()
-            }
+            this.messageBox({
+                message: '确认退出推荐餐厅？',
+                confirmButtonText: '确定',
+                showCancelButton: true,
+                cancelButtonText: '取消',
+                closeOnClickModal: false
+            }).then(action => {
+                if(action=='confirm'){
+                    this.destroyCache()
+                    this.$router.back()
+                }else{
+                    console.log(action)
+                }
+            })
         },
         onloadData () { // 下拉
             this.queryShops('Refresh')
