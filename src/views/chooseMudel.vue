@@ -59,21 +59,26 @@
                 require(['../components/sm_scroll/sm_scroll'], resolve);
             }
         },
+        created () {
+            this.initCardList()
+        },
         methods: {
             backPage () {
                 this.$router.push('/')
             },
+            initCardList () { // 初始化module
+                let isShowItem5 = this.$store.state.userConfig.isShowItem5,
+                    isShowItem7 = this.$store.state.userConfig.isShowItem7
+                if(!isShowItem5){
+                    this.cardList.splice(0,1)
+                }
+                if(!isShowItem7){
+                    this.cardList.splice(1,1)
+                }
+            },
             jump (type) {
                 sessionStorage.setItem('mudelType',type)
                 this.$router.push('/recommended')
-                // switch (type) {
-                //     case "MeiCan":
-                //         this.$router.push('/recommended')
-                //         break;
-                //     case "TakeAway":
-                //         alert(type)
-                //         break;
-                // }
             }
         }
     }

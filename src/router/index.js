@@ -72,6 +72,14 @@ const router = new Router({
       component: (res) => {
         require(['@/views/map.vue'], res)
       }
+    },
+    // 餐厅收集过期进入展示页
+    {
+      path: '/errorPage',
+      name: 'errorPage',
+      component: (res) => {
+        require(['@/views/errorPage.vue'], res)
+      }
     }
   ]
 })
@@ -101,12 +109,12 @@ router.beforeEach((to, from, next) => {
     if (from.path !== '/') {
       next(false)
       MessageBox.confirm('是否确认退出').then(action => {
-        if (action === "confirm") {
+        if (action === 'confirm') {
           sessionStorage.clear()
           next()
-          //关闭webview
+          // 关闭webview
           if (window.webView) {
-            window.webView.close();
+            window.webView.close()
           }
         }
       }).catch(err => {
@@ -119,7 +127,7 @@ router.beforeEach((to, from, next) => {
   } else {
     if (!to.meta.allowAnonymous) {
       const token = sessionStorage.getItem('token')
-      if (!token && to.path !== '/') {
+      if (!token && to.path != '/errorPage') {
         next({
           path: '/'
         })

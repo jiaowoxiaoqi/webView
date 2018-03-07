@@ -52,7 +52,7 @@
                         <p>我的推荐餐厅</p>
                     </div>
                 </div>
-                <div class="footerRight">
+                <div class="footerRight" @click='submitShop'>
                     提&nbsp;&nbsp;交
                 </div>
             </div>
@@ -86,6 +86,7 @@
                 selectedShops: [], // 餐厅库选择的商户
                 entryShops: [], // 手工录入的商户
                 entryTakeAway: [], // 手工录入的外卖/茶歇
+                isSubmitData: false
             }
 
         },
@@ -116,11 +117,6 @@
                 }
             });
         },
-        // mounted () {
-        //     this.Bus.$on('openStaginShop',(status)=>{
-        //         this.pppConfig.show
-        //     })
-        // },
         methods: {
             closePopup () {
                 let popupConfig = {
@@ -129,17 +125,51 @@
                 }
                 this.Bus.$emit('openStaginShop', popupConfig);
             },
-            onPullingUp () {
-                if(this.closeGetHospital) {
-                    this.$refs.scroll.forceUpdate()
+            submitShop () { // 提交shop-1
+                if(this.isSubmitData){
                     this.toast({
-                        message: '已无更多医院信息',
+                        message: '正在提交ing..请勿重复操作',
+                        duration: 800,
+                    });
+                    return;
+                }
+                this.isSubmitData = true
+                this.postShops()
+            },
+            postShops: async function() { // 提交shop-2
+                let pass = localStorage.getItem('channel') // 进入ishop渠道channel/link
+                let submitMsg = this.$store.state.userConfig.ishopSubmitMsg
+                let formMudel = sessionStorage.getItem('mudelType') // 来自哪个模块
+                this.selectedShops.unshift.apply(this.selectedShops, this.entryShops)
+                let params = {
+                    cityId: this.params.cityId,
+                    hospitalId: this.params.hospitalId,
+                    itemType: 5,
+                    shops: formMudel=='MeiCan'?this.selectedShops:this.entryTakeAway,
+                    channel: pass
+                }
+                const res = await this.axios.post(this.api.postMyShops, params)
+                if(res){this.isSubmitData=false}
+                if (res.status) {
+                    this.destroyCache()
+                    if(pass=='app'&& submitMsg){
+                        this.messageBox({
+                            message: submitMsg,
+                            confirmButtonText: '确定',
+                            closeOnClickModal: false
+                        }).then(action => {
+                            this.$router.push('/recommended')
+                        })
+                    }else{
+                        this.$router.push('/recommended')
+                    }
+                } else {
+                    this.toast({
+                        message: res.msg,
                         position: 'bottom',
                         duration: 2500
                     })
-                    return;
                 }
-                this.getHospitalList('Pulling')
             },
         }
     }

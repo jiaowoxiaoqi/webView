@@ -9,7 +9,7 @@
                     <label for="logEntry"><i class="iconfont icon-icon-test"></i></label>
                     <input type="text" id="logEntry" placeholder="请输入你的工号/手机号/邮箱号" v-model='userInfo'>
                 </div>
-                <div class="logButton" @click="logEvent">
+                <div class="logButton" @click="_login">
                     <span>登录</span>
                 </div>    
             </div>
@@ -23,6 +23,8 @@
         data() {
             return {
                 userInfo: '',
+                isWebView: false,
+                isDenialData: false
             }
 
         },
@@ -35,23 +37,39 @@
             })
         },
         created () {
-            this.getQueryData()
+            this.accessAuthority()
         },
         methods: {
-            getQueryData () {// 1,获取进入ishop的信息;进入路径app/link;
-                this.tool.storage.driver('local')
-                let queryData = this.$route.query
-                let channel = queryData.channel?queryData.channel:'app'
-                this.tool.storage.set('channel',channel)
+            _login() {
+                let denialData = localStorage.getItem('denialTime')
+                if(denialData){
+                    this.accessAuthority()
+                }
+                if(this.isDenialData) {
+                    this.toast({
+                        message: '餐厅收集截止时间已过，感谢各位使用！',
+                        duration: 2000,
+                    });
+                }else{
+                    this.logEvent()
+                }
             },
             async logEvent () {// 2，登陆事件
                 if (this.isLoading) {
                     this.toast({
                         message: '正在努力加载,请勿重复执行操作',
                         position: 'bottom',
-                        duration: 5000
+                        duration: 2500
                     })
                     return
+                }
+                if(!this.userInfo) {
+                    this.toast({
+                        message: '请输入登录账号',
+                        position: 'bottom',
+                        duration: 2000,
+                    });
+                    return;
                 }
                 let params = {
                     client_id: "sites.ishop",
@@ -65,6 +83,7 @@
                     this.toast({
                         message: '登录成功',
                         position: 'bottom',
+                        duration: 800
                     })
                     this.tool.storage.driver('session')
                     this.tool.storage.set("token", res.access_token)
@@ -92,6 +111,43 @@
                     this.$router.push('/chooseMudel')
                 }
             },
+            getLoginName() {
+                let userName = ''
+                userName = this.$route.query.userName == "null"?'':this.$route.query.userName;
+                if (!userName) return false;
+                else {
+                    this.userInfo = userName;
+                    this.isWebView = true;
+                    localStorage.setItem('webView', true);
+                    return true;
+                }
+            },
+            accessAuthority () {
+                let queryData = this.$route.query
+                var channel = 'app';
+                if(queryData.channel || localStorage.getItem('channel')){
+                    channel = queryData.channel?queryData.channel:localStorage.getItem('channel');
+                }
+                localStorage.setItem('channel', channel);
+                
+                if(queryData.denialTime || localStorage.getItem('denialTime')){
+                    if(queryData.denialTime) {localStorage.setItem('denialTime', queryData.denialTime);}
+                    let nowData = new Date()
+                    let denialData =new Date(localStorage.getItem('denialTime'))
+
+                    if(nowData<=denialData){
+                        if (localStorage.getItem('webView')) {
+                            this.isWebView = true;
+                        }
+                        if (this.getLoginName()) {
+                            this.logEvent();
+                        }
+                    }else{
+                        this.isDenialData = true
+                        this.$router.push("/errorPage")
+                    }
+                }
+            }
         }
     }
 </script>

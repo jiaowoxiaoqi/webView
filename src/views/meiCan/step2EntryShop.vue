@@ -77,7 +77,7 @@ export default {
                 center_show: true,
                 center_inner_show: false,
                 center_title_show: true,
-                right_show: true,
+                right_show: this.$store.state.userConfig.ishopRuleMsg?true:false,
                 right_title_show: true,
                 right_icon_show: false,
             },
