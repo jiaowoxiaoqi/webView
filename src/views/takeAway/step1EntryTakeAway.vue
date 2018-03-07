@@ -50,7 +50,7 @@
     <!-- 添加按钮 -->
     <add-button :btnImgUrl='btnImg' :btnHandle='addEntryShop'></add-button>
     <stagin-shop></stagin-shop>
-    <select-type></select-type>
+    <select-type :listGround='selectTypeConfig'></select-type>
  </div>
 </template>
 
@@ -74,10 +74,24 @@ export default {
             sshopHdTxt:{
                 smhCtTxt: '录入外卖/茶歇',
             },
-            btnImg: {
+            btnImg: { // 添加按鈕信息
                 imgUrl: require('@/assets/images/addTakeaway_01 .png'),
                 imgAlt: '添加外卖'
             },
+            selectTypeConfig:[
+                {
+                    txt: "外卖",
+                    mealType: 1,
+                    checkend: true,
+                    fromItemSign: ''
+                },
+                {
+                    txt: "茶歇",
+                    mealType: 2,
+                    checkend: false,
+                    fromItemSign: ''
+                }
+            ],
             entryTakeAway: { // 推荐餐厅信息--录入餐厅模板
                 take: true,
                 select: 1,
@@ -136,8 +150,10 @@ export default {
     },
     created () {
         this.queryMyShops()
+        this.initSelectType()
         this.Bus.$on('selectType',(item=>{
             this.entryTakeAway.shops[item.fromItemSign].value = item.txt
+            this.entryTakeAway.shops[item.fromItemSign].mealType = item.mealType
         }))
     },
     methods: {
@@ -146,6 +162,14 @@ export default {
         ]),
         backPage () { // 返回上页
             this.$router.back()
+        },
+        initSelectType () { //初始化類型選項
+            if(this.waimaiEntry==0){
+                this.selectTypeConfig.splice(0,1)
+            }
+            if(this.chaxieEntry==0){
+                this.selectTypeConfig.splice(1,1)
+            }
         },
         openSelectType (index) { // 打开类型选择
             this.Bus.$emit('openSelectType', true);
@@ -247,10 +271,10 @@ export default {
                 nodeData.forEach(item=>{
                     switch(item.mealType){
                         case 1:
-                            item.value = "茶歇"
+                            item.value = "外卖"
                             break;
                         case 2:
-                            item.value = "外卖"
+                            item.value = "茶歇"
                             break;
                     }
                 })
@@ -271,16 +295,17 @@ export default {
                         break;
                 }
             })
-            if(this.waimaiEntry>=0 && this.waimaiEntry < type3Num){
+            if(this.waimaiEntry>0 && this.waimaiEntry < type3Num){
                 this.toast({
                     message: '最多可推荐' + waimaiEntry +'家外卖',
                     duration: 2000,
                 });
                 return;
             }
-            if (this.chaxieEntry>=0 && this.chaxieEntry < type4Num) {
+            console.log(this.chaxieEntry)
+            if (this.chaxieEntry>0 && this.chaxieEntry < type4Num) {
                 this.toast({
-                    message: '最多可推荐' + chaxieEntry +'家茶歇',
+                    message: '最多可推荐' + this.chaxieEntry +'家茶歇',
                     duration: 2000,
                 });
                 return;

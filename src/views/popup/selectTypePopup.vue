@@ -23,13 +23,13 @@
                     return [
                         {
                             txt: "外卖",
-                            mealType: 2,
+                            mealType: 1,
                             checkend: true,
                             fromItemSign: ''
                         },
                         {
                             txt: "茶歇",
-                            mealType: 1,
+                            mealType: 2,
                             checkend: false,
                             fromItemSign: ''
                         }

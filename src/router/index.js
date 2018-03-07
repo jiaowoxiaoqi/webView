@@ -10,7 +10,7 @@ const router = new Router({
     // 登陆
     {
       path: '/',
-      name: 'login',
+      name: 'Login',
       component: (res) => {
         require(['@/views/login'], res)
       },

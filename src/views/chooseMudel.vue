@@ -61,7 +61,7 @@
         },
         methods: {
             backPage () {
-                this.$router.back()
+                this.$router.push('/')
             },
             jump (type) {
                 sessionStorage.setItem('mudelType',type)
