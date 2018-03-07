@@ -19,7 +19,7 @@
               </li>
             </ul>
             <ul class="listGrounp" v-if='!item.recommendId'>
-              <li>
+              <li @click='openSelectType(index)'>
                 <label for="">外卖类型:</label>
                 <input type="text" placeholder="请选择外卖类型/必选" :value="item.value" readonly="readonly"/>
                 <i class="iconfont icon-jiantou color-gray"></i>
@@ -50,12 +50,14 @@
     <!-- 添加按钮 -->
     <add-button :btnImgUrl='btnImg' :btnHandle='addEntryShop'></add-button>
     <stagin-shop></stagin-shop>
+    <select-type></select-type>
  </div>
 </template>
 
 <script type="text/ecmascript-6">
 import BScroll from 'better-scroll'
 import staginShop from '../popup/stagingShop'
+import selectType from '../popup/selectTypePopup'
 import { mapMutations } from 'vuex'
 export default {
     data() {
@@ -129,10 +131,14 @@ export default {
         'addButton': (res) => {
             require(['@/components/I_button/addButton'], res);
         },
-        staginShop
+        staginShop,
+        selectType
     },
     created () {
         this.queryMyShops()
+        this.Bus.$on('selectType',(item=>{
+            this.entryTakeAway.shops[item.fromItemSign].value = item.txt
+        }))
     },
     methods: {
         ...mapMutations([
@@ -140,6 +146,10 @@ export default {
         ]),
         backPage () { // 返回上页
             this.$router.back()
+        },
+        openSelectType (index) { // 打开类型选择
+            this.Bus.$emit('openSelectType', true);
+            this.Bus.$emit('itemSign',index)
         },
         deleteGroup: function(index) { // 刪除手工錄入信息
             if (this.entryTakeAway.shops.length > 1) {
@@ -202,6 +212,7 @@ export default {
                 });
                 return;
             }
+            this.enteredTakeAway = this.$store.state.shopInfo.entryTakeAway
             if (this.enteredTakeAway.length != this.entryTakeAway.shops.length) {
                 this.messageBox({
                     message: `存在未填写项，确认提交`,
@@ -219,7 +230,7 @@ export default {
                 this.postShops()
             }
         },
-        queryMyShops: async function() {
+        queryMyShops: async function() { // 获取我推荐的外卖/茶歇
             let params = {
                 "itemType": 7,
                 hospitalId: sessionStorage.getItem("hospitalId"),

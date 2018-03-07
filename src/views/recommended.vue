@@ -75,7 +75,7 @@
                 }]">{{item.shopStatusTxt}}</span><span class='info color-gray' v-if="item.failResaon">原因:{{item.failResaon}}</span>
                 </div>
                 <div class='itemContent flexColumn'>
-                <label class="type">外卖类型：<span v-if="item.mealType==1">外卖</span><span v-if="item.mealType==2">茶歇</span></label>
+                <label class="type">外卖类型：<span v-if="item.mealType==1">茶歇</span><span v-if="item.mealType==2">外卖</span></label>
                 <label class="title">
                     <span class="th">餐厅名称：</span><span class="tt">{{item.name}}</span>
                 </label>

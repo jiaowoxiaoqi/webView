@@ -5,6 +5,7 @@
         :height="pppConfig.height" 
         :hide-on-blur="pppConfig.hideOnBlur"
         :show-mask="pppConfig.showMask"
+        :popup-style="pppConfig.popupStyle"
         :on-show='popupInit(pppConfig.type)'
         :on-hide='popupDestroy'>
         <slot name="popup_header">
@@ -45,7 +46,10 @@
                         position: 'bottom',
                         height: '100%',
                         hideOnBlur: true,
-                        showMask: true
+                        showMask: true,
+                        popupStyle: {
+
+                        }
                    } 
                 }//默认配置
             },

@@ -1,0 +1,27 @@
+.selectTypePopup{
+    .typePopupHeader{
+        position: relative;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: .44rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #0099ff;
+        color: #fff;
+        box-sizing: border-box;
+        padding: 0 .15rem;
+    }
+    .typePopupContent{
+        li{
+            padding: 0.20rem .15rem;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fff;
+            border-bottom: 1px solid #999;
+        }
+    }
+}
