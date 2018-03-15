@@ -1,5 +1,8 @@
 <template>
     <div class="loginPage">
+        <sm-header :smhConfig='venuesmHdConfig' v-if='isWebView'>
+            <i class="iconfont icon-close1" slot="sm_header_left" @click='closeIshop'></i>
+        </sm-header>
         <div class="loginContent">
             <div class="logo">
                 <img src="@/assets/images/logo.png" alt="">
@@ -24,12 +27,19 @@
             return {
                 userInfo: '',
                 isWebView: false,
-                isDenialData: false
+                isDenialData: false,
+                venuesmHdConfig: {
+                    left_show: true,
+                    center_show: false,
+                    right_show: false,
+                },
             }
 
         },
         components: {
-
+            'smHeader': (resolve) => {
+                require(['../components/sm_header/sm_header'], resolve);
+            },
         },
         computed: {
             ...mapState({
@@ -40,6 +50,11 @@
             this.accessAuthority()
         },
         methods: {
+            closeIshop() { // 关闭ishop
+                if(window.webView) {
+                    window.webView.close();
+                }
+            },
             _login() {
                 let denialData = localStorage.getItem('denialTime')
                 if(denialData){
